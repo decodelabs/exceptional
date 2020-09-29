@@ -24,12 +24,8 @@ trait ExceptionTrait
     /**
      * Override the standard Exception constructor to simplify instantiation
      */
-    public function __construct($message, array $params=[])
+    public function __construct(string $message, array $params=[])
     {
-        if (!is_string($message)) {
-            $message = 'blah';
-        }
-
         $args = [
             $message,
             (int)($params['code'] ?? 0)
@@ -92,18 +88,18 @@ trait ExceptionTrait
 
 
     /**
-     * Associate error with HTTP code
+     * Associate error with HTTP status code
      */
-    public function setHttpCode(?int $code)
+    public function setHttpStatus(?int $code)
     {
         $this->http = $code;
         return $this;
     }
 
     /**
-     * Get associated HTTP code
+     * Get associated HTTP status code
      */
-    public function getHttpCode(): ?int
+    public function getHttpStatus(): ?int
     {
         return $this->http;
     }

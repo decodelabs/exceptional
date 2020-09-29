@@ -14,8 +14,8 @@ interface Exception
     public function setData($data);
     public function getData();
 
-    public function setHttpCode(?int $code);
-    public function getHttpCode(): ?int;
+    public function setHttpStatus(?int $code);
+    public function getHttpStatus(): ?int;
 
     public function getStackFrame(): Frame;
     public function getStackTrace(): Trace;
