@@ -9,6 +9,8 @@ namespace DecodeLabs\Exceptional;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
 
+use DecodeLabs\Glitch\Path\Normalizer as Path;
+
 trait ExceptionTrait
 {
     protected $http;
@@ -119,7 +121,7 @@ trait ExceptionTrait
     public function getStackTrace(): Trace
     {
         if (!$this->stackTrace) {
-            $this->stackTrace = Trace::fromException($this, $this->rewind + 1);
+            $this->stackTrace = Trace::fromException($this, $this->rewind);
         }
 
         return $this->stackTrace;
@@ -131,7 +133,7 @@ trait ExceptionTrait
     public function __toString(): string
     {
         $output = $this->getMessage()."\n".
-            'in '.Glitch::normalizePath($this->getFile()).' : '.$this->getLine()."\n\n".
+            'in '.Path::normalize($this->getFile()).' : '.$this->getLine()."\n\n".
             $this->getStackTrace();
 
         return $output;
@@ -157,6 +159,10 @@ trait ExceptionTrait
             foreach ($parts as $i => $part) {
                 $inner = explode('\\', $part);
                 $parts[$i] = array_pop($inner);
+
+                if ($parts[$i] === 'Exception') {
+                    unset($parts[$i]);
+                }
             }
 
             $parts = array_unique($parts);
