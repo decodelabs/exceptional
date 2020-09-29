@@ -1,2 +1,7 @@
+## v0.2.0 (2020-09-29)
+* Added initial Exception Factory structure
+* Improved interface list handling
+* Fixed param normalizing in ExceptionTrait
+
 ## v0.1.0 (2020-09-29)
 * Added initial Exception interface
