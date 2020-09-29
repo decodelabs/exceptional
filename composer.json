@@ -1,0 +1,31 @@
+{
+    "name": "decodelabs/exceptional",
+    "description": "Better Exceptions for PHP",
+    "type": "library",
+    "keywords": ["exception"],
+    "license": "MIT",
+    "authors": [{
+        "name": "Tom Wright",
+        "email": "tom@inflatablecookie.com"
+    }],
+    "require": {
+        "php": "^7.2",
+        "symfony/polyfill-mbstring": "^1.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "phpstan/phpstan": "^0.12.19",
+        "phpstan/extension-installer": "^1.0",
+        "decodelabs/phpstan-decodelabs": "^0.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DecodeLabs\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.1.x-dev"
+        }
+    }
+}
