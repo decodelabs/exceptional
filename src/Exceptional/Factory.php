@@ -203,6 +203,7 @@ class Factory
         $this->params['data'] = $data ?? $params['data'] ?? null;
         $this->params['previous'] = $previous ?? $params['previous'] ?? null;
         $this->params['code'] = (int)($code ?? $params['code'] ?? 0);
+        $this->params['http'] = $http ?? $params['http'] ?? null;
 
         if (!$this->params['previous'] instanceof Throwable) {
             $this->params['previous'] = null;

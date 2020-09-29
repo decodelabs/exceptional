@@ -9,6 +9,8 @@ namespace DecodeLabs;
 use DecodeLabs\Exceptional\Exception;
 use DecodeLabs\Exceptional\Factory;
 
+use BadMethodCallException;
+
 final class Exceptional
 {
     /**
@@ -26,7 +28,7 @@ final class Exceptional
         $type = trim($type);
 
         if (!preg_match('|[.\\/]|', $type) && !preg_match('/^[A-Z]/', $type)) {
-            throw Exceptional::BadMethodCall(
+            throw new BadMethodCallException(
                 'Method '.$type.' is not available in Exceptional'
             );
         }
