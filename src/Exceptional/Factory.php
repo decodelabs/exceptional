@@ -369,7 +369,6 @@ class Factory
                 }
 
                 $this->baseClass = trim($type, '\\');
-                continue;
             }
 
             $this->interfaces[$type] = true;
@@ -408,7 +407,6 @@ class Factory
             $this->traits[$trait] = true;
         }
     }
-
 
 
 
@@ -459,13 +457,18 @@ class Factory
 
         // Interface
         if ($classExists = class_exists($interface)) {
-            if ($this->baseClass !== null) {
+            $baseClass = trim($interface, '\\');
+
+            if (
+                $this->baseClass !== null &&
+                $this->baseClass !== $baseClass
+            ) {
                 throw new InvalidArgumentException(
                     'Exception has already defined base type: '.$this->baseClass
                 );
             }
 
-            $this->baseClass = trim($interface, '\\');
+            $this->baseClass = $baseClass;
         }
 
 
@@ -474,7 +477,10 @@ class Factory
             $this->indexPackageInterface($name);
 
             // Interface
-            if (!isset($this->interfaceIndex[$interface])) {
+            if (
+                !$classExists &&
+                !isset($this->interfaceIndex[$interface])
+            ) {
                 $this->interfaceIndex[$interface] = [
                     '\\DecodeLabs\\Exceptional\\'.$name.'Exception'
                 ];
@@ -485,7 +491,10 @@ class Factory
             }
         } else {
             // User
-            if (!isset($this->interfaceIndex[$interface])) {
+            if (
+                !$classExists &&
+                !isset($this->interfaceIndex[$interface])
+            ) {
                 $this->interfaceIndex[$interface] = [
                     '\\DecodeLabs\\Exceptional\\Exception'
                 ];

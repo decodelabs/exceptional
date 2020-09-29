@@ -27,7 +27,7 @@ final class Exceptional
     {
         $type = trim($type);
 
-        if (!preg_match('|[.\\/]|', $type) && !preg_match('/^[A-Z]/', $type)) {
+        if (!preg_match('|[.\\\\/]|', $type) && !preg_match('/^[A-Z]/', $type)) {
             throw new BadMethodCallException(
                 'Method '.$type.' is not available in Exceptional'
             );
