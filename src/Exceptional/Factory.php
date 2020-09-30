@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Exceptional;
 
 use DecodeLabs\Exceptional\Exception;
+use DecodeLabs\Exceptional\AutoLoader;
 
 use Throwable;
 use InvalidArgumentException;
@@ -148,6 +149,8 @@ class Factory
     protected $interfaceDefs = [];
     protected $exceptionDef;
 
+    protected $autoLoad = false;
+
 
     /**
      * Generate a context specific, message oriented throwable error
@@ -194,6 +197,10 @@ class Factory
         ?array $interfaces,
         ?array $traits
     ) {
+        // Turn off autoloading
+        $this->autoLoad = AutoLoader::isRegistered();
+        AutoLoader::unregister();
+
         // Message
         $this->message = $message ?? $params['message'] ?? 'Undefined error';
 
@@ -374,6 +381,11 @@ class Factory
                 $this->baseClass = trim($type, '\\');
             }
 
+            // Ensure root slash
+            if (substr($type, 0, 1) !== '\\') {
+                $type = '\\'.$type;
+            }
+
             $this->interfaces[$type] = true;
         }
     }
@@ -385,6 +397,10 @@ class Factory
     protected function importInterfaces(array $interfaces): void
     {
         foreach ($interfaces as $interface) {
+            if (substr($interface, 0, 1) !== '\\') {
+                $interface = '\\'.$interface;
+            }
+
             if (!interface_exists($interface)) {
                 throw new InvalidArgumentException(
                     $interface.' is not an interface'
@@ -401,6 +417,10 @@ class Factory
     protected function importTraits(array $traits): void
     {
         foreach ($traits as $trait) {
+            if (substr($trait, 0, 1) !== '\\') {
+                $trait = '\\'.$trait;
+            }
+
             if (!trait_exists($trait)) {
                 throw new InvalidArgumentException(
                     $trait.' is not an trait'
@@ -432,6 +452,11 @@ class Factory
         $params = $this->params;
         $params['type'] = $this->baseClass;
         $params['interfaces'] = $interfaces;
+
+        // Reenable AutoLoader
+        if ($this->autoLoad) {
+            AutoLoader::register();
+        }
 
         // Instantiate
         return new self::$instances[$hash]($this->message, $params);
