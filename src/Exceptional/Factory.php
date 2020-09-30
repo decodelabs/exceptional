@@ -361,7 +361,10 @@ class Factory
             }
 
             // Named class
-            if (class_exists($type)) {
+            if (
+                class_exists($type) &&
+                is_a($type, \Exception::class, true)
+            ) {
                 if ($this->baseClass !== null) {
                     throw new InvalidArgumentException(
                         'Exception has already defined base type: '.$this->baseClass
@@ -450,13 +453,18 @@ class Factory
         }
 
         // Namespace
+        $namespaceParent = null;
+
         if (!empty($parts)) {
-            $this->indexNamespaceInterfaces($parts);
+            $namespaceParent = $this->indexNamespaceInterfaces($parts);
         }
 
 
         // Interface
-        if ($classExists = class_exists($interface)) {
+        if (
+            ($classExists = class_exists($interface)) &&
+            is_a($interface, \Exception::class, true)
+         ) {
             $baseClass = trim($interface, '\\');
 
             if (
@@ -485,8 +493,8 @@ class Factory
                     '\\DecodeLabs\\Exceptional\\'.$name.'Exception'
                 ];
 
-                if (!empty($parts)) {
-                    $this->interfaceIndex[$interface][] = '\\'.implode('\\', $parts).'\\Exception';
+                if ($namespaceParent !== null) {
+                    $this->interfaceIndex[$interface][] = $namespaceParent;
                 }
             }
         } else {
@@ -495,9 +503,7 @@ class Factory
                 !$classExists &&
                 !isset($this->interfaceIndex[$interface])
             ) {
-                $this->interfaceIndex[$interface] = [
-                    '\\DecodeLabs\\Exceptional\\Exception'
-                ];
+                $this->interfaceIndex[$interface] = ['\\'.Exception::class];
             }
         }
     }
@@ -505,10 +511,10 @@ class Factory
     /**
      * Index namespace interface
      */
-    protected function indexNamespaceInterfaces(array $parts): void
+    protected function indexNamespaceInterfaces(array $parts): ?string
     {
         $set = [];
-        $last = '\\DecodeLabs\\Exceptional\\Exception';
+        $first = $last = '\\DecodeLabs\\Exceptional\\Exception';
 
         while (!empty($parts)) {
             $set[] = array_shift($parts);
@@ -516,20 +522,26 @@ class Factory
 
             // Check
             if (class_exists($interface)) {
-                throw new LogicException(
-                    'Requested interface exists as a class: '.$interface
-                );
+                // We have to skip
+                continue;
             }
 
             if (
                 isset($this->interfaceIndex[$interface]) ||
                 interface_exists($interface)
             ) {
+                $last = $interface;
                 continue;
             }
 
             $this->interfaceIndex[$interface] = [$last];
             $last = $interface;
+        }
+
+        if ($last !== $first) {
+            return $last;
+        } else {
+            return null;
         }
     }
 
@@ -544,18 +556,7 @@ class Factory
         $interface = $prefix.$name.'Exception';
 
         // Check
-        if (class_exists($interface)) {
-            throw new LogicException(
-                'Requested interface exists as a class: '.$interface
-            );
-        }
-
-        if (
-            isset($this->interfaceIndex[$interface]) ||
-            interface_exists($interface)
-        ) {
-            return;
-        }
+        $classExists = class_exists($interface);
 
         // Base class
         if (
@@ -577,9 +578,14 @@ class Factory
         // Interface
         if (isset($standard['extend'])) {
             $this->indexPackageInterface($standard['extend']);
-            $this->interfaceIndex[$interface] = [$prefix.$standard['extend'].'Exception'];
+
+            if (!$classExists) {
+                $this->interfaceIndex[$interface] = [$prefix.$standard['extend'].'Exception'];
+            }
         } else {
-            $this->interfaceIndex[$interface] = [$prefix.'Exception'];
+            if (!$classExists) {
+                $this->interfaceIndex[$interface] = [$prefix.'Exception'];
+            }
         }
     }
 
