@@ -363,7 +363,7 @@ class Factory
             // Named class
             if (
                 class_exists($type) &&
-                $type instanceof \Exception
+                is_a($type, \Exception::class, true)
             ) {
                 if ($this->baseClass !== null) {
                     throw new InvalidArgumentException(
@@ -463,7 +463,7 @@ class Factory
         // Interface
         if (
             ($classExists = class_exists($interface)) &&
-            $interface instanceof \Exception
+            is_a($interface, \Exception::class, true)
          ) {
             $baseClass = trim($interface, '\\');
 
