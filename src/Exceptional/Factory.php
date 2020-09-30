@@ -342,7 +342,7 @@ class Factory
                 }
             } else {
                 // Namespace style
-                if (substr($type, 0, 1) !== '\\') {
+                if (false === strpos($type, '\\')) {
                     $type = $this->namespace.'\\'.$type;
                 }
             }
