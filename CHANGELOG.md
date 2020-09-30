@@ -1,3 +1,6 @@
+## v0.2.3 (2020-09-30)
+* Added initial Exception auto loader
+
 ## v0.2.2 (2020-09-30)
 * Fixed namespace format dereferencing
 
