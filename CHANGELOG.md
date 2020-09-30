@@ -1,3 +1,6 @@
+## v0.2.4 (2020-09-30)
+* Fixed AutoLoader classname check
+
 ## v0.2.3 (2020-09-30)
 * Added initial Exception auto loader
 
