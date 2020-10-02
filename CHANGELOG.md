@@ -1,3 +1,6 @@
+## v0.2.7 (2020-10-02)
+* Added incomplete() shortcut
+
 ## v0.2.6 (2020-10-02)
 * Fixed ErrorException support
 * Added dump handling for ErrorException severity
