@@ -185,5 +185,31 @@ trait ExceptionTrait
         yield 'file' => $this->file;
         yield 'startLine' => $this->line;
         yield 'stackTrace' => $this->getStackTrace();
+
+
+        // Severity
+        if (isset($this->params['severity'])) {
+            $severity = (int)$this->params['severity'];
+            $defs = [];
+            $constants = [
+                'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
+                'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR',
+                'E_COMPILE_WARNING', 'E_USER_ERROR', 'E_USER_WARNING',
+                'E_USER_NOTICE', 'E_STRICT', 'E_RECOVERABLE_ERROR',
+                'E_DEPRECATED', 'E_USER_DEPRECATED'
+            ];
+
+            foreach ($constants as $constant) {
+                $value = constant($constant);
+
+                if ($severity & $value) {
+                    $defs[] = $constant;
+                }
+            }
+
+            if (!empty($defs)) {
+                yield 'definition' => implode(' | ', $defs);
+            }
+        }
     }
 }
