@@ -59,6 +59,7 @@ final class Exceptional
             $frame = Frame::create($rewind + 2);
         }
 
+        /** @phpstan-ignore-next-line */
         throw Factory::create(
             [],
             2 + $rewind,
