@@ -1,10 +1,9 @@
 # Exceptional
 
-### Better Exceptions for PHP
+## Better Exceptions for PHP
 
 Exceptional aims to offer a radically enhanced Exception framework that decouples the _meaning_ of an Exception from the underlying _implementation_ functionality.
 
-## Exceptions
 Exceptional exceptions can be used to greatly simplify how you generate and throw errors in your code, especially if you are writing a shared library.
 
 Pass the name of your intended exception as a static call to the Exceptional base class and have a dynamic exception class created based on the most appropriate PHP Exception class along with a set of related interfaces for easier catching.
