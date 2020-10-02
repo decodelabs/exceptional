@@ -7,7 +7,10 @@ declare(strict_types=1);
 namespace DecodeLabs;
 
 use DecodeLabs\Exceptional\Exception;
+use DecodeLabs\Exceptional\IncompleteException;
 use DecodeLabs\Exceptional\Factory;
+
+use DecodeLabs\Glitch\Stack\Frame;
 
 use BadMethodCallException;
 
@@ -41,6 +44,31 @@ final class Exceptional
             explode(',', $type),
             1,
             ...$args
+        );
+    }
+
+
+    /**
+     * Shortcut to incomplete context method
+     */
+    public static function incomplete($data=null, int $rewind=0): void
+    {
+        $frame = Frame::create($rewind + 1);
+
+        if ($frame->getVeneerFacade() !== null) {
+            $frame = Frame::create($rewind + 2);
+        }
+
+        throw Factory::create(
+            [],
+            2 + $rewind,
+            $frame->getSignature().' has not been implemented yet',
+            [
+                'interfaces' => [
+                    IncompleteException::class
+                ],
+                'data' => $data
+            ]
         );
     }
 }
