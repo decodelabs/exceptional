@@ -127,7 +127,7 @@ class Factory
                     'http' => 503
                 ],
 
-        'SystemError' => [
+        'Error' => [
             'type' => 'ErrorException'
         ]
     ];
