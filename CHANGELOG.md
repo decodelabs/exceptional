@@ -1,3 +1,6 @@
+## v0.2.5 (2020-10-02)
+* Ported readme from Glitch
+
 ## v0.2.4 (2020-09-30)
 * Fixed AutoLoader classname check
 
