@@ -12,13 +12,13 @@
         "php": "^7.2",
         "symfony/polyfill-mbstring": "^1.7",
 
-        "decodelabs/glitch-support": "^0.1"
+        "decodelabs/glitch-support": "^0.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
         "phpstan/phpstan": "^0.12.45",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.3"
+        "decodelabs/phpstan-decodelabs": "^0.3.5"
     },
     "autoload": {
         "psr-4": {

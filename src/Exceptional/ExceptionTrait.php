@@ -9,7 +9,7 @@ namespace DecodeLabs\Exceptional;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
 
-use DecodeLabs\Glitch\Path\Normalizer as Path;
+use DecodeLabs\Glitch\Proxy;
 
 trait ExceptionTrait
 {
@@ -133,7 +133,7 @@ trait ExceptionTrait
     public function __toString(): string
     {
         $output = $this->getMessage()."\n".
-            'in '.Path::normalize($this->getFile()).' : '.$this->getLine()."\n\n".
+            'in '.Proxy::normalizePath($this->getFile()).' : '.$this->getLine()."\n\n".
             $this->getStackTrace();
 
         return $output;

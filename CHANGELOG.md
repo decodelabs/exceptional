@@ -1,3 +1,6 @@
+## v0.2.8 (2020-10-02)
+* Switched to Glitch Proxy for Path Normalizer
+
 ## v0.2.7 (2020-10-02)
 * Added incomplete() shortcut
 
