@@ -1,3 +1,4 @@
+## v0.2.6 (2020-10-02)
 * Fixed ErrorException support
 * Added dump handling for ErrorException severity
 
