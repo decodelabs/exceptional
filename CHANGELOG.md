@@ -1,3 +1,4 @@
+* Fixed ErrorException support
 * Added dump handling for ErrorException severity
 
 ## v0.2.5 (2020-10-02)
