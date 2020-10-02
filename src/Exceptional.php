@@ -56,13 +56,14 @@ final class Exceptional
         $frame = Frame::create($rewind + 1);
 
         if ($frame->getVeneerFacade() !== null) {
-            $frame = Frame::create($rewind + 2);
+            $rewind++;
+            $frame = Frame::create($rewind + 1);
         }
 
         /** @phpstan-ignore-next-line */
         throw Factory::create(
             [],
-            2 + $rewind,
+            1 + $rewind,
             $frame->getSignature().' has not been implemented yet',
             [
                 'interfaces' => [
