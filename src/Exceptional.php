@@ -10,7 +10,7 @@ use DecodeLabs\Exceptional\Exception;
 use DecodeLabs\Exceptional\IncompleteException;
 use DecodeLabs\Exceptional\Factory;
 
-use DecodeLabs\Glitch\Stack\Frame;
+use DecodeLabs\Glitch\Proxy as Glitch;
 
 use BadMethodCallException;
 
@@ -50,27 +50,10 @@ final class Exceptional
 
     /**
      * Shortcut to incomplete context method
+     * REMOVE THIS for 0.3
      */
     public static function incomplete($data=null, int $rewind=0): void
     {
-        $frame = Frame::create($rewind + 1);
-
-        if ($frame->getVeneerFacade() !== null) {
-            $rewind++;
-            $frame = Frame::create($rewind + 1);
-        }
-
-        /** @phpstan-ignore-next-line */
-        throw Factory::create(
-            [],
-            1 + $rewind,
-            $frame->getSignature().' has not been implemented yet',
-            [
-                'interfaces' => [
-                    IncompleteException::class
-                ],
-                'data' => $data
-            ]
-        );
+        Glitch::incomplete($data, $rewind + 1);
     }
 }
