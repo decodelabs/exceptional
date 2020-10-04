@@ -10,8 +10,6 @@ use DecodeLabs\Exceptional\Exception;
 use DecodeLabs\Exceptional\IncompleteException;
 use DecodeLabs\Exceptional\Factory;
 
-use DecodeLabs\Glitch\Proxy as Glitch;
-
 use BadMethodCallException;
 
 final class Exceptional
@@ -45,15 +43,5 @@ final class Exceptional
             1,
             ...$args
         );
-    }
-
-
-    /**
-     * Shortcut to incomplete context method
-     * REMOVE THIS for 0.3
-     */
-    public static function incomplete($data=null, int $rewind=0): void
-    {
-        Glitch::incomplete($data, $rewind + 1);
     }
 }
