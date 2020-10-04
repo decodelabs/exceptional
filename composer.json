@@ -18,7 +18,7 @@
         "phpunit/phpunit": "^8",
         "phpstan/phpstan": "^0.12.45",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.3.7"
+        "decodelabs/phpstan-decodelabs": "^0.3.10"
     },
     "autoload": {
         "psr-4": {
