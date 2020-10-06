@@ -1,23 +1,24 @@
 <?php
+
 /**
- * This file is part of the Exceptional package
+ * @package Exceptional
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs;
 
-use DecodeLabs\Exceptional\Exception;
-use DecodeLabs\Exceptional\IncompleteException;
-use DecodeLabs\Exceptional\Factory;
-
 use BadMethodCallException;
+use DecodeLabs\Exceptional\Exception;
+use DecodeLabs\Exceptional\Factory;
 
 final class Exceptional
 {
     /**
      * Protected constructor inhibits instantiation
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 
@@ -30,7 +31,7 @@ final class Exceptional
 
         if (!preg_match('|[.\\\\/]|', $type) && !preg_match('/^[A-Z]/', $type)) {
             throw new BadMethodCallException(
-                'Method '.$type.' is not available in Exceptional'
+                'Method ' . $type . ' is not available in Exceptional'
             );
         }
 

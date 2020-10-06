@@ -1,12 +1,13 @@
 <?php
+
 /**
- * This file is part of the Exceptional package
+ * @package Exceptional
  * @license http://opensource.org/licenses/MIT
  */
-declare(strict_types=1);
-namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Exceptional\Factory;
+declare(strict_types=1);
+
+namespace DecodeLabs\Exceptional;
 
 class AutoLoader
 {

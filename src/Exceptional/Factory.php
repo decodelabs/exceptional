@@ -1,17 +1,17 @@
 <?php
+
 /**
- * This file is part of the Exceptional package
+ * @package Exceptional
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Exceptional\Exception;
-use DecodeLabs\Exceptional\AutoLoader;
-
-use Throwable;
 use InvalidArgumentException;
 use LogicException;
+use Throwable;
 
 /**
  * Automatically generate Exceptions on the fly based on scope and
@@ -19,7 +19,7 @@ use LogicException;
  */
 class Factory
 {
-    const STANDARD = [
+    public const STANDARD = [
         'Logic' => [
             'type' => 'LogicException'
         ],
@@ -133,7 +133,7 @@ class Factory
     ];
 
 
-    const REWIND = 2;
+    public const REWIND = 2;
 
     private static $instances = [];
 
@@ -157,25 +157,33 @@ class Factory
      */
     public static function create(
         array $types,
-        ?int $rewind=0,
-        ?string $message=null,
-        ?array $params=[],
-        $data=null,
-        ?Throwable $previous=null,
-        ?int $code=null,
-        ?string $file=null,
-        ?int $line=null,
-        ?int $http=null,
-        ?string $namespace=null,
-        ?array $interfaces=null,
-        ?array $traits=null
+        ?int $rewind = 0,
+        ?string $message = null,
+        ?array $params = [],
+        $data = null,
+        ?Throwable $previous = null,
+        ?int $code = null,
+        ?string $file = null,
+        ?int $line = null,
+        ?int $http = null,
+        ?string $namespace = null,
+        ?array $interfaces = null,
+        ?array $traits = null
     ): Exception {
         return (new self(
-            $types, $rewind,
-            $message, $params, $data,
-            $previous, $code, $file, $line,
+            $types,
+            $rewind,
+            $message,
+            $params,
+            $data,
+            $previous,
+            $code,
+            $file,
+            $line,
             $http,
-            $namespace, $interfaces, $traits
+            $namespace,
+            $interfaces,
+            $traits
         ))->build();
     }
 
@@ -292,7 +300,7 @@ class Factory
         if (empty($this->namespace)) {
             $this->namespace = null;
         } else {
-            $this->namespace = '\\'.$this->namespace;
+            $this->namespace = '\\' . $this->namespace;
         }
     }
 
@@ -323,14 +331,14 @@ class Factory
                 if (substr($type, 0, 1) == '.') {
                     if ($this->namespace === null) {
                         throw new LogicException(
-                            'Stack context is not within a namespace for path dereferencing: '.$origType
+                            'Stack context is not within a namespace for path dereferencing: ' . $origType
                         );
                     }
 
-                    $type = $this->namespace.'\\'.$type;
+                    $type = $this->namespace . '\\' . $type;
                 }
 
-                $type = '\\'.ltrim($type, '\\');
+                $type = '\\' . ltrim($type, '\\');
 
                 if (false !== strpos($type, '.')) {
                     $parts = [];
@@ -350,7 +358,7 @@ class Factory
             } else {
                 // Namespace style
                 if (false === strpos($type, '\\')) {
-                    $type = $this->namespace.'\\'.$type;
+                    $type = $this->namespace . '\\' . $type;
                 }
             }
 
@@ -359,7 +367,7 @@ class Factory
             if ($isTraitName) {
                 if (!trait_exists($type)) {
                     throw new InvalidArgumentException(
-                        'Trait not found: '.$type
+                        'Trait not found: ' . $type
                     );
                 }
 
@@ -374,7 +382,7 @@ class Factory
             ) {
                 if ($this->baseClass !== null) {
                     throw new InvalidArgumentException(
-                        'Exception has already defined base type: '.$this->baseClass
+                        'Exception has already defined base type: ' . $this->baseClass
                     );
                 }
 
@@ -383,7 +391,7 @@ class Factory
 
             // Ensure root slash
             if (substr($type, 0, 1) !== '\\') {
-                $type = '\\'.$type;
+                $type = '\\' . $type;
             }
 
             $this->interfaces[$type] = true;
@@ -398,12 +406,12 @@ class Factory
     {
         foreach ($interfaces as $interface) {
             if (substr($interface, 0, 1) !== '\\') {
-                $interface = '\\'.$interface;
+                $interface = '\\' . $interface;
             }
 
             if (!interface_exists($interface)) {
                 throw new InvalidArgumentException(
-                    $interface.' is not an interface'
+                    $interface . ' is not an interface'
                 );
             }
 
@@ -418,12 +426,12 @@ class Factory
     {
         foreach ($traits as $trait) {
             if (substr($trait, 0, 1) !== '\\') {
-                $trait = '\\'.$trait;
+                $trait = '\\' . $trait;
             }
 
             if (!trait_exists($trait)) {
                 throw new InvalidArgumentException(
-                    $trait.' is not an trait'
+                    $trait . ' is not an trait'
                 );
             }
 
@@ -441,7 +449,9 @@ class Factory
     {
         // Named interfaces
         foreach ($this->interfaces as $interface => $enabled) {
-            $this->indexInterface($interface);
+            if ($enabled) {
+                $this->indexInterface($interface);
+            }
         }
 
         // Definitions
@@ -471,7 +481,7 @@ class Factory
         $name = substr((string)array_pop($parts), 0, -9);
 
         // Trait
-        $traitName = $interface.'Trait';
+        $traitName = $interface . 'Trait';
 
         if (trait_exists($traitName)) {
             $this->traits[$traitName] = true;
@@ -497,7 +507,7 @@ class Factory
                 $this->baseClass !== $baseClass
             ) {
                 throw new InvalidArgumentException(
-                    'Exception has already defined base type: '.$this->baseClass
+                    'Exception has already defined base type: ' . $this->baseClass
                 );
             }
 
@@ -515,7 +525,7 @@ class Factory
                 !isset($this->interfaceIndex[$interface])
             ) {
                 $this->interfaceIndex[$interface] = [
-                    '\\DecodeLabs\\Exceptional\\'.$name.'Exception'
+                    '\\DecodeLabs\\Exceptional\\' . $name . 'Exception'
                 ];
 
                 if ($namespaceParent !== null) {
@@ -528,7 +538,7 @@ class Factory
                 !$classExists &&
                 !isset($this->interfaceIndex[$interface])
             ) {
-                $this->interfaceIndex[$interface] = ['\\'.Exception::class];
+                $this->interfaceIndex[$interface] = ['\\' . Exception::class];
             }
         }
     }
@@ -543,7 +553,7 @@ class Factory
 
         while (!empty($parts)) {
             $set[] = array_shift($parts);
-            $interface = '\\'.implode('\\', $set).'\\Exception';
+            $interface = '\\' . implode('\\', $set) . '\\Exception';
 
             // Check
             if (class_exists($interface)) {
@@ -578,7 +588,7 @@ class Factory
     {
         $standard = static::STANDARD[$name];
         $prefix = '\\DecodeLabs\\Exceptional\\';
-        $interface = $prefix.$name.'Exception';
+        $interface = $prefix . $name . 'Exception';
 
         // Check
         $classExists = class_exists($interface);
@@ -605,11 +615,11 @@ class Factory
             $this->indexPackageInterface($standard['extend']);
 
             if (!$classExists) {
-                $this->interfaceIndex[$interface] = [$prefix.$standard['extend'].'Exception'];
+                $this->interfaceIndex[$interface] = [$prefix . $standard['extend'] . 'Exception'];
             }
         } else {
             if (!$classExists) {
-                $this->interfaceIndex[$interface] = [$prefix.'Exception'];
+                $this->interfaceIndex[$interface] = [$prefix . 'Exception'];
             }
         }
     }
@@ -638,7 +648,7 @@ class Factory
 
 
         // Build class def
-        $this->exceptionDef = 'return new class(\'\') extends '.$this->baseClass;
+        $this->exceptionDef = 'return new class(\'\') extends ' . $this->baseClass;
         $interfaces = $this->interfaceIndex;
 
         foreach ($this->interfaceIndex as $interface => $extends) {
@@ -653,11 +663,13 @@ class Factory
             $interfaces = array_keys($interfaces);
         }
 
-        $this->exceptionDef .= ' implements '.implode(',', $interfaces);
+        $this->exceptionDef .= ' implements ' . implode(',', $interfaces);
         $this->exceptionDef .= ' {';
 
         foreach ($this->traits as $trait => $enabled) {
-            $this->exceptionDef .= 'use '.$trait.';';
+            if ($enabled) {
+                $this->exceptionDef .= 'use ' . $trait . ';';
+            }
         }
 
         $this->exceptionDef .= '};';
@@ -686,7 +698,7 @@ class Factory
         $namespace = implode('\\', $parts);
         $parents = implode(',', $extends);
 
-        $this->interfaceDefs[$interface] = 'namespace '.$namespace.' { interface '.$name.' extends '.$parents.' {} }';
+        $this->interfaceDefs[$interface] = 'namespace ' . $namespace . ' { interface ' . $name . ' extends ' . $parents . ' {} }';
     }
 
 
@@ -698,7 +710,7 @@ class Factory
         $defs = implode("\n", $this->interfaceDefs);
 
         // Put the eval code in $GLOBALS to dump if it dies
-        $GLOBALS['__eval'] = $defs."\n".$this->exceptionDef;
+        $GLOBALS['__eval'] = $defs . "\n" . $this->exceptionDef;
 
         eval($defs);
         $hash = md5($this->exceptionDef);

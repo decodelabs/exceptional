@@ -1,4 +1,6 @@
 * Fixed incomplete() rewind handling
+* Applied full PSR12 standards
+* Added PSR12 check to Travis build
 
 ## v0.2.8 (2020-10-02)
 * Switched to Glitch Proxy for Path Normalizer
