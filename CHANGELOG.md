@@ -1,3 +1,4 @@
+## v0.2.9 (2020-10-06)
 * Fixed incomplete() rewind handling
 * Updated Veneer handling in Frame
 * Applied full PSR12 standards
