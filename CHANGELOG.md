@@ -1,4 +1,5 @@
 * Fixed incomplete() rewind handling
+* Updated Veneer handling in Frame
 * Applied full PSR12 standards
 * Added PSR12 check to Travis build
 
