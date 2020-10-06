@@ -1,15 +1,17 @@
 <?php
+
 /**
- * This file is part of the Exceptional package
+ * @package Exceptional
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Glitch\Proxy;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
-
-use DecodeLabs\Glitch\Proxy;
 
 trait ExceptionTrait
 {
@@ -26,7 +28,7 @@ trait ExceptionTrait
     /**
      * Override the standard Exception constructor to simplify instantiation
      */
-    public function __construct(string $message, array $params=[])
+    public function __construct(string $message, array $params = [])
     {
         $args = [
             $message,
@@ -132,11 +134,9 @@ trait ExceptionTrait
      */
     public function __toString(): string
     {
-        $output = $this->getMessage()."\n".
-            'in '.Proxy::normalizePath($this->getFile()).' : '.$this->getLine()."\n\n".
+        return $this->getMessage() . "\n" .
+            'in ' . Proxy::normalizePath($this->getFile()) . ' : ' . $this->getLine() . "\n\n" .
             $this->getStackTrace();
-
-        return $output;
     }
 
 
@@ -176,7 +176,7 @@ trait ExceptionTrait
         yield 'property:*http' => $this->http;
 
         foreach ($this->params as $key => $value) {
-            yield 'property:*'.$key => $value;
+            yield 'property:*' . $key => $value;
         }
 
         yield '^property:!previous' => $this->getPrevious();

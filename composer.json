@@ -12,13 +12,14 @@
         "php": "^7.2",
         "symfony/polyfill-mbstring": "^1.7",
 
-        "decodelabs/glitch-support": "^0.2"
+        "decodelabs/glitch-support": "^0.2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
         "phpstan/phpstan": "^0.12.45",
         "phpstan/extension-installer": "^1.0",
-        "decodelabs/phpstan-decodelabs": "^0.3.5"
+        "decodelabs/phpstan-decodelabs": "^0.3.10",
+        "symplify/easy-coding-standard": "^8.3"
     },
     "autoload": {
         "psr-4": {
@@ -32,5 +33,10 @@
         "branch-alias": {
             "dev-develop": "0.2.x-dev"
         }
+    },
+    "scripts": {
+        "analyze": "phpstan analyze --no-progress",
+        "psr12": "ecs check --no-progress-bar",
+        "psr12-fix": "ecs check --no-progress-bar --fix"
     }
 }

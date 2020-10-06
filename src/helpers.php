@@ -1,7 +1,12 @@
 <?php
 
-namespace DecodeLabs;
+/**
+ * @package Exceptional
+ * @license http://opensource.org/licenses/MIT
+ */
 
-use DecodeLabs\Exceptional;
+declare(strict_types=1);
+
+namespace DecodeLabs;
 
 Exceptional\AutoLoader::register();

@@ -1,9 +1,12 @@
 <?php
+
 /**
- * This file is part of the Glitch package
+ * @package Exceptional
  * @license http://opensource.org/licenses/MIT
  */
+
 declare(strict_types=1);
+
 namespace DecodeLabs\Exceptional;
 
 use ReflectionFunctionAbstract;
