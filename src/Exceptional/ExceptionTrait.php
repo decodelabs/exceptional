@@ -13,6 +13,8 @@ use DecodeLabs\Glitch\Proxy;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
 
+use ErrorException;
+
 trait ExceptionTrait
 {
     protected $http;
@@ -35,7 +37,7 @@ trait ExceptionTrait
             (int)($params['code'] ?? 0)
         ];
 
-        if ($this instanceof \ErrorException) {
+        if ($this instanceof ErrorException) {
             $args[] = (int)($params['severity'] ?? 0);
             $args[] = (string)($params['file'] ?? '');
             $args[] = (int)($params['line'] ?? 0);

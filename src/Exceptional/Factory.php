@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Exceptional\Exception as ExceptionInterface;
+
+use Exception as RootException;
 use InvalidArgumentException;
 use LogicException;
 use Throwable;
@@ -378,7 +381,7 @@ class Factory
             // Named class
             if (
                 class_exists($type) &&
-                is_a($type, \Exception::class, true)
+                is_a($type, RootException::class, true)
             ) {
                 if ($this->baseClass !== null) {
                     throw new InvalidArgumentException(
@@ -498,7 +501,7 @@ class Factory
         // Interface
         if (
             ($classExists = class_exists($interface)) &&
-            is_a($interface, \Exception::class, true)
+            is_a($interface, RootException::class, true)
          ) {
             $baseClass = trim($interface, '\\');
 
@@ -538,7 +541,7 @@ class Factory
                 !$classExists &&
                 !isset($this->interfaceIndex[$interface])
             ) {
-                $this->interfaceIndex[$interface] = ['\\' . Exception::class];
+                $this->interfaceIndex[$interface] = ['\\' . ExceptionInterface::class];
             }
         }
     }
@@ -636,7 +639,7 @@ class Factory
     {
         // Ensure base class
         if ($this->baseClass === null) {
-            $this->baseClass = \Exception::class;
+            $this->baseClass = RootException::class;
         }
 
         // Create definitions for needed interfaces
@@ -658,7 +661,7 @@ class Factory
         }
 
         if (empty($interfaces)) {
-            $interfaces[] = Exception::class;
+            $interfaces[] = ExceptionInterface::class;
         } else {
             $interfaces = array_keys($interfaces);
         }
