@@ -1,3 +1,7 @@
+## v0.3.0 (2021-03-18)
+* Implement PreparedTraceException from Glitch
+* Enabled PHP8 testing
+
 ## v0.2.9 (2020-10-06)
 * Fixed incomplete() rewind handling
 * Updated Veneer handling in Frame
