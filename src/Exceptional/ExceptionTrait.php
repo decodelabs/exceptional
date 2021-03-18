@@ -123,7 +123,7 @@ trait ExceptionTrait
     public function getStackTrace(): Trace
     {
         if (!$this->stackTrace) {
-            $this->stackTrace = Trace::fromException($this, $this->rewind);
+            $this->stackTrace = Trace::fromArray($this->getTrace(), $this->rewind);
         }
 
         return $this->stackTrace;
