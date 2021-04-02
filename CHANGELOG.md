@@ -1,3 +1,7 @@
+## v0.3.2 (2021-04-02)
+* Fixed ExceptionTrait interface
+* Added test for ExceptionTrait
+
 ## v0.3.1 (2021-04-02)
 * Updated for max PHPStan conformance
 

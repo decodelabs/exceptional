@@ -14,21 +14,49 @@ use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
 
 use ErrorException;
+use Exception as RootException;
 
 trait ExceptionTrait
 {
+    /**
+     * @var int|null
+     */
     protected $http;
+
+    /**
+     * @var mixed
+     */
     protected $data;
+
+    /**
+     * @var int
+     */
     protected $rewind;
+
+    /**
+     * @var Trace|null
+     */
     protected $stackTrace;
 
+    /**
+     * @var string|null
+     */
     protected $type;
-    protected $interfaces;
 
+    /**
+     * @var array<string>
+     */
+    protected $interfaces = [];
+
+    /**
+     * @var array<string, mixed>
+     */
     protected $params = [];
 
     /**
      * Override the standard Exception constructor to simplify instantiation
+     *
+     * @param array<string, mixed> $params
      */
     public function __construct(string $message, array $params = [])
     {
@@ -78,7 +106,7 @@ trait ExceptionTrait
     /**
      * Set arbitrary data
      */
-    public function setData($data)
+    public function setData($data): Exception
     {
         $this->data = $data;
         return $this;
@@ -96,7 +124,7 @@ trait ExceptionTrait
     /**
      * Associate error with HTTP status code
      */
-    public function setHttpStatus(?int $code)
+    public function setHttpStatus(?int $code): Exception
     {
         $this->http = $code;
         return $this;
@@ -116,7 +144,13 @@ trait ExceptionTrait
      */
     public function getStackFrame(): Frame
     {
-        return $this->getStackTrace()->getFirstFrame();
+        $output = $this->getStackTrace()->getFirstFrame();
+
+        if ($output === null) {
+            throw new RootException('No stack frame to return');
+        }
+
+        return $output;
     }
 
     /**
@@ -144,6 +178,8 @@ trait ExceptionTrait
 
     /**
      * Export for dump inspection
+     *
+     * @return array<string, mixed>
      */
     public function glitchDump(): iterable
     {
