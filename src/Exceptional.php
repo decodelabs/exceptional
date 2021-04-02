@@ -24,6 +24,8 @@ final class Exceptional
 
     /**
      * Description
+     *
+     * @param array<mixed> $args
      */
     public static function __callStatic(string $type, array $args): Exception
     {

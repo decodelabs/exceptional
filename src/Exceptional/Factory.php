@@ -138,25 +138,72 @@ class Factory
 
     public const REWIND = 2;
 
+    /**
+     * @var array<Exception>
+     */
     private static $instances = [];
 
+    /**
+     * @var string|null
+     */
     protected $message;
+
+    /**
+     * @var array<string, mixed>
+     */
     protected $params = [];
 
+
+    /**
+     * @var string|null
+     */
     protected $baseClass;
+
+    /**
+     * @var string|null
+     */
     protected $namespace;
+
+    /**
+     * @var array<string, bool>
+     */
     protected $interfaces = [];
+
+    /**
+     * @var array<string, bool>
+     */
     protected $traits = [];
 
+
+    /**
+     * @var array<string, array>
+     */
     protected $interfaceIndex = [];
+
+    /**
+     * @var array<string, string>
+     */
     protected $interfaceDefs = [];
+
+    /**
+     * @var string
+     */
     protected $exceptionDef;
 
+    /**
+     * @var bool
+     */
     protected $autoLoad = false;
 
 
     /**
      * Generate a context specific, message oriented throwable error
+     *
+     * @param array<string> $types
+     * @param array<string, mixed> $params
+     * @param mixed $data
+     * @param array<string> $interfaces
+     * @param array<string> $traits
      */
     public static function create(
         array $types,
@@ -192,6 +239,12 @@ class Factory
 
     /**
      * Begin new factory process
+     *
+     * @param array<string> $types
+     * @param array<string, mixed> $params
+     * @param mixed $data
+     * @param array<string> $interfaces
+     * @param array<string> $traits
      */
     protected function __construct(
         array $types,
@@ -274,6 +327,8 @@ class Factory
 
     /**
      * Prepare target namespace
+     *
+     * @param array<string, mixed>|null $frame
      */
     protected function prepareTargetNamespace(?string $namespace, ?array $frame): void
     {
@@ -310,6 +365,8 @@ class Factory
 
     /**
      * Import type definitions
+     *
+     * @param array<string> $types
      */
     protected function importTypes(array $types): void
     {
@@ -404,6 +461,8 @@ class Factory
 
     /**
      * Import interface definitions
+     *
+     * @param array<string> $interfaces
      */
     protected function importInterfaces(array $interfaces): void
     {
@@ -424,6 +483,8 @@ class Factory
 
     /**
      * Import trait definitions
+     *
+     * @param array<string> $traits
      */
     protected function importTraits(array $traits): void
     {
@@ -548,6 +609,8 @@ class Factory
 
     /**
      * Index namespace interface
+     *
+     * @param array<string> $parts
      */
     protected function indexNamespaceInterfaces(array $parts): ?string
     {
@@ -634,6 +697,8 @@ class Factory
 
     /**
      * Build interface definitions
+     *
+     * @return array<string>
      */
     protected function buildDefinitions(): array
     {
@@ -689,6 +754,8 @@ class Factory
 
     /**
      * Define interface
+     *
+     * @param array<string> $extends
      */
     protected function defineInterface(string $interface, array $extends): void
     {
