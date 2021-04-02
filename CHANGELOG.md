@@ -1,3 +1,6 @@
+## v0.3.1 (2021-04-02)
+* Updated for max PHPStan conformance
+
 ## v0.3.0 (2021-03-18)
 * Implement PreparedTraceException from Glitch
 * Enabled PHP8 testing
