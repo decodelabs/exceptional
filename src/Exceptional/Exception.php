@@ -15,9 +15,21 @@ use Throwable;
 
 interface Exception extends Throwable, PreparedTraceException
 {
-    public function setData($data);
+    /**
+     * @param mixed $data
+     * @return $this
+     */
+    public function setData($data): Exception;
+
+    /**
+     * @return mixed
+     */
     public function getData();
 
-    public function setHttpStatus(?int $code);
+    /**
+     * @return $this
+     */
+    public function setHttpStatus(?int $code): Exception;
+
     public function getHttpStatus(): ?int;
 }

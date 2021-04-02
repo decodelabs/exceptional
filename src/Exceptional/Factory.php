@@ -9,6 +9,9 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Exceptional\Exception as ExceptionInterface;
+
+use Exception as RootException;
 use InvalidArgumentException;
 use LogicException;
 use Throwable;
@@ -135,25 +138,72 @@ class Factory
 
     public const REWIND = 2;
 
+    /**
+     * @var array<Exception>
+     */
     private static $instances = [];
 
+    /**
+     * @var string|null
+     */
     protected $message;
+
+    /**
+     * @var array<string, mixed>
+     */
     protected $params = [];
 
+
+    /**
+     * @var string|null
+     */
     protected $baseClass;
+
+    /**
+     * @var string|null
+     */
     protected $namespace;
+
+    /**
+     * @var array<string, bool>
+     */
     protected $interfaces = [];
+
+    /**
+     * @var array<string, bool>
+     */
     protected $traits = [];
 
+
+    /**
+     * @var array<string, array>
+     */
     protected $interfaceIndex = [];
+
+    /**
+     * @var array<string, string>
+     */
     protected $interfaceDefs = [];
+
+    /**
+     * @var string
+     */
     protected $exceptionDef;
 
+    /**
+     * @var bool
+     */
     protected $autoLoad = false;
 
 
     /**
      * Generate a context specific, message oriented throwable error
+     *
+     * @param array<string> $types
+     * @param array<string, mixed> $params
+     * @param mixed $data
+     * @param array<string> $interfaces
+     * @param array<string> $traits
      */
     public static function create(
         array $types,
@@ -189,6 +239,12 @@ class Factory
 
     /**
      * Begin new factory process
+     *
+     * @param array<string> $types
+     * @param array<string, mixed> $params
+     * @param mixed $data
+     * @param array<string> $interfaces
+     * @param array<string> $traits
      */
     protected function __construct(
         array $types,
@@ -271,6 +327,8 @@ class Factory
 
     /**
      * Prepare target namespace
+     *
+     * @param array<string, mixed>|null $frame
      */
     protected function prepareTargetNamespace(?string $namespace, ?array $frame): void
     {
@@ -307,6 +365,8 @@ class Factory
 
     /**
      * Import type definitions
+     *
+     * @param array<string> $types
      */
     protected function importTypes(array $types): void
     {
@@ -378,7 +438,7 @@ class Factory
             // Named class
             if (
                 class_exists($type) &&
-                is_a($type, \Exception::class, true)
+                is_a($type, RootException::class, true)
             ) {
                 if ($this->baseClass !== null) {
                     throw new InvalidArgumentException(
@@ -401,6 +461,8 @@ class Factory
 
     /**
      * Import interface definitions
+     *
+     * @param array<string> $interfaces
      */
     protected function importInterfaces(array $interfaces): void
     {
@@ -421,6 +483,8 @@ class Factory
 
     /**
      * Import trait definitions
+     *
+     * @param array<string> $traits
      */
     protected function importTraits(array $traits): void
     {
@@ -498,7 +562,7 @@ class Factory
         // Interface
         if (
             ($classExists = class_exists($interface)) &&
-            is_a($interface, \Exception::class, true)
+            is_a($interface, RootException::class, true)
          ) {
             $baseClass = trim($interface, '\\');
 
@@ -538,13 +602,15 @@ class Factory
                 !$classExists &&
                 !isset($this->interfaceIndex[$interface])
             ) {
-                $this->interfaceIndex[$interface] = ['\\' . Exception::class];
+                $this->interfaceIndex[$interface] = ['\\' . ExceptionInterface::class];
             }
         }
     }
 
     /**
      * Index namespace interface
+     *
+     * @param array<string> $parts
      */
     protected function indexNamespaceInterfaces(array $parts): ?string
     {
@@ -631,12 +697,14 @@ class Factory
 
     /**
      * Build interface definitions
+     *
+     * @return array<string>
      */
     protected function buildDefinitions(): array
     {
         // Ensure base class
         if ($this->baseClass === null) {
-            $this->baseClass = \Exception::class;
+            $this->baseClass = RootException::class;
         }
 
         // Create definitions for needed interfaces
@@ -658,7 +726,7 @@ class Factory
         }
 
         if (empty($interfaces)) {
-            $interfaces[] = Exception::class;
+            $interfaces[] = ExceptionInterface::class;
         } else {
             $interfaces = array_keys($interfaces);
         }
@@ -686,6 +754,8 @@ class Factory
 
     /**
      * Define interface
+     *
+     * @param array<string> $extends
      */
     protected function defineInterface(string $interface, array $extends): void
     {

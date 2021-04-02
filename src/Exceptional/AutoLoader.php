@@ -11,6 +11,9 @@ namespace DecodeLabs\Exceptional;
 
 class AutoLoader
 {
+    /**
+     * @var bool
+     */
     protected static $registered = false;
 
     /**
