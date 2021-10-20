@@ -717,18 +717,18 @@ class Factory
 
         // Build class def
         $this->exceptionDef = 'return new class(\'\') extends ' . $this->baseClass;
-        $interfaces = $this->interfaceIndex;
+        $interfaceMap = $this->interfaceIndex;
 
         foreach ($this->interfaceIndex as $interface => $extends) {
             foreach ($extends as $extend) {
-                unset($interfaces[$extend]);
+                unset($interfaceMap[$extend]);
             }
         }
 
-        if (empty($interfaces)) {
-            $interfaces[] = ExceptionInterface::class;
+        if (empty($interfaceMap)) {
+            $interfaces = [ExceptionInterface::class];
         } else {
-            $interfaces = array_keys($interfaces);
+            $interfaces = array_keys($interfaceMap);
         }
 
         $this->exceptionDef .= ' implements ' . implode(',', $interfaces);
