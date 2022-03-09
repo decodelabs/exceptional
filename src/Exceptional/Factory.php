@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional\Exception as ExceptionInterface;
 
 use Exception as RootException;
@@ -176,7 +177,7 @@ class Factory
 
 
     /**
-     * @var array<string, array>
+     * @var array<string, array<string>>
      */
     protected $interfaceIndex = [];
 
@@ -266,14 +267,17 @@ class Factory
         AutoLoader::unregister();
 
         // Message
-        $this->message = $message ?? $params['message'] ?? 'Undefined error';
+        $this->message =
+            $message ??
+            Coercion::toStringOrNull($params['message'] ?? null) ??
+            'Undefined error';
 
 
         // Params
         $this->params = $params ?? [];
         $this->params['data'] = $data ?? $params['data'] ?? null;
         $this->params['previous'] = $previous ?? $params['previous'] ?? null;
-        $this->params['code'] = (int)($code ?? $params['code'] ?? 0);
+        $this->params['code'] = Coercion::toInt($code ?? $params['code'] ?? 0);
         $this->params['http'] = $http ?? $params['http'] ?? null;
 
         if (!$this->params['previous'] instanceof Throwable) {
@@ -281,7 +285,10 @@ class Factory
         }
 
         // Trace
-        $this->params['rewind'] = $rewind = (int)max((int)($rewind ?? $params['rewind'] ?? 1), 0);
+        $this->params['rewind'] = $rewind = (int)max(
+            $rewind ?? Coercion::toIntOrNull($params['rewind'] ?? null) ?? 1,
+            0
+        );
 
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + static::REWIND + 1));
         $key = $rewind + static::REWIND;
@@ -299,7 +306,7 @@ class Factory
 
         // Namespace
         $this->prepareTargetNamespace(
-            $namespace ?? $params['namespace'] ?? null,
+            Coercion::toStringOrNull($namespace ?? $params['namespace'] ?? null),
             $trace[$key] ?? null
         );
 
@@ -310,9 +317,11 @@ class Factory
 
         $this->importTypes($types);
         $this->importInterfaces($interfaces ?? []);
-        $this->importInterfaces($this->params['interfaces'] ?? []);
+        /* @phpstan-ignore-next-line */
+        $this->importInterfaces(Coercion::toArray($this->params['interfaces'] ?? []));
         $this->importTraits($traits ?? []);
-        $this->importTraits($this->params['traits'] ?? []);
+        /* @phpstan-ignore-next-line */
+        $this->importTraits(Coercion::toArray($this->params['traits'] ?? []));
 
 
         // Cleanup
@@ -338,7 +347,7 @@ class Factory
             $this->namespace === null &&
             $frame !== null
         ) {
-            $class = $frame['class'] ?? null;
+            $class = Coercion::toStringOrNull($frame['class'] ?? null);
 
             if (!empty($class)) {
                 if (false !== strpos($class, 'class@anon')) {

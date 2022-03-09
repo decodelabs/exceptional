@@ -9,12 +9,15 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Coercion;
+
 use DecodeLabs\Glitch\Proxy;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
 
 use ErrorException;
 use Exception as RootException;
+use Throwable;
 
 trait ExceptionTrait
 {
@@ -62,16 +65,19 @@ trait ExceptionTrait
     {
         $args = [
             $message,
-            (int)($params['code'] ?? 0)
+            Coercion::toInt($params['code'] ?? 0)
         ];
 
         if ($this instanceof ErrorException) {
-            $args[] = (int)($params['severity'] ?? 0);
-            $args[] = (string)($params['file'] ?? '');
-            $args[] = (int)($params['line'] ?? 0);
+            $args[] = Coercion::toInt($params['severity'] ?? 0);
+            $args[] = Coercion::toString($params['file'] ?? '');
+            $args[] = Coercion::toInt($params['line'] ?? 0);
         }
 
-        $args[] = $params['previous'] ?? null;
+        $args[] = Coercion::toTypeOrNull(
+            $params['previous'] ?? null,
+            Throwable::class
+        );
 
         parent::__construct(...$args);
 
@@ -86,14 +92,12 @@ trait ExceptionTrait
         unset($params['code'], $params['previous'], $params['file'], $params['line']);
 
         $this->data = $params['data'] ?? null;
-        $this->rewind = $params['rewind'] ?? 0;
+        $this->rewind = Coercion::toInt($params['rewind'] ?? 0);
+        $this->http = Coercion::toIntOrNull($params['http'] ?? null);
 
-        if (isset($params['http'])) {
-            $this->http = (int)$params['http'];
-        }
-
-        $this->type = $params['type'] ?? null;
-        $this->interfaces = (array)($params['interfaces'] ?? []);
+        $this->type = Coercion::toStringOrNull($params['type'] ?? null);
+        /* @phpstan-ignore-next-line */
+        $this->interfaces = Coercion::toArray($params['interfaces'] ?? []);
 
         if (isset($params['stackTrace']) && $params['stackTrace'] instanceof Trace) {
             $this->stackTrace = $params['stackTrace'];
@@ -226,8 +230,9 @@ trait ExceptionTrait
 
 
         // Severity
-        if (isset($this->params['severity'])) {
-            $severity = (int)$this->params['severity'];
+        if (null !== (
+            $severity = Coercion::toIntOrNull($this->params['severity'] ?? null)
+        )) {
             $defs = [];
             $constants = [
                 'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
