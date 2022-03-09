@@ -44,6 +44,7 @@ final class Exceptional
         return Factory::create(
             explode(',', $type),
             1,
+            /* @phpstan-ignore-next-line */
             ...$args
         );
     }

@@ -1,3 +1,7 @@
+## v0.3.3 (2022-03-09)
+* Transitioned from Travis to GHA
+* Updated PHPStan and ECS dependencies
+
 ## v0.3.2 (2021-04-02)
 * Fixed ExceptionTrait interface
 * Added test for ExceptionTrait
