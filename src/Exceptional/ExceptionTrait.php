@@ -81,13 +81,8 @@ trait ExceptionTrait
 
         parent::__construct(...$args);
 
-        if (isset($params['file'])) {
-            $this->file = $params['file'];
-        }
-
-        if (isset($params['line'])) {
-            $this->line = $params['line'];
-        }
+        $this->file = Coercion::toString($params['file'] ?? '');
+        $this->line = Coercion::toInt($params['line'] ?? 0);
 
         unset($params['code'], $params['previous'], $params['file'], $params['line']);
 
