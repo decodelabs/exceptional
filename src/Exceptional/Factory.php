@@ -572,7 +572,7 @@ class Factory
         if (
             ($classExists = class_exists($interface)) &&
             is_a($interface, RootException::class, true)
-         ) {
+        ) {
             $baseClass = trim($interface, '\\');
 
             if (

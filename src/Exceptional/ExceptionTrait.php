@@ -79,6 +79,7 @@ trait ExceptionTrait
             Throwable::class
         );
 
+        /* @phpstan-ignore-next-line */
         parent::__construct(...$args);
 
         $this->file = Coercion::toString($params['file'] ?? '');
