@@ -20,13 +20,6 @@ Install via Composer:
 composer require decodelabs/exceptional
 ```
 
-### PHP version
-
-_Please note, the final v1 releases of all Decode Labs libraries will target **PHP8** or above._
-
-Current support for earlier versions of PHP will be phased out in the coming months.
-
-
 ## Usage
 
 Exceptional exceptions can be used to greatly simplify how you generate and throw errors in your code, especially if you are writing a shared library.
