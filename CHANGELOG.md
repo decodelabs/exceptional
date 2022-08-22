@@ -1,3 +1,4 @@
+## v0.4.0 (2022-08-22)
 * Removed PHP7 compatibility
 * Updated ECS to v11
 * Updated PHPUnit to v9
