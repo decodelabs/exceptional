@@ -1,3 +1,6 @@
+## v0.4.1 (2022-08-23)
+* Added extra class_exists check in Autoloader
+
 ## v0.4.0 (2022-08-22)
 * Removed PHP7 compatibility
 * Updated ECS to v11
