@@ -142,59 +142,41 @@ class Factory
     /**
      * @var array<Exception>
      */
-    private static $instances = [];
+    private static array $instances = [];
 
-    /**
-     * @var string|null
-     */
-    protected $message;
+    protected ?string $message = null;
 
     /**
      * @var array<string, mixed>
      */
-    protected $params = [];
+    protected array $params = [];
 
-
-    /**
-     * @var string|null
-     */
-    protected $baseClass;
-
-    /**
-     * @var string|null
-     */
-    protected $namespace;
+    protected ?string $baseClass = null;
+    protected ?string $namespace = null;
 
     /**
      * @var array<string, bool>
      */
-    protected $interfaces = [];
+    protected array $interfaces = [];
 
     /**
      * @var array<string, bool>
      */
-    protected $traits = [];
+    protected array $traits = [];
 
 
     /**
      * @var array<string, array<string>>
      */
-    protected $interfaceIndex = [];
+    protected array $interfaceIndex = [];
 
     /**
      * @var array<string, string>
      */
-    protected $interfaceDefs = [];
+    protected array $interfaceDefs = [];
 
-    /**
-     * @var string
-     */
-    protected $exceptionDef;
-
-    /**
-     * @var bool
-     */
-    protected $autoLoad = false;
+    protected string $exceptionDef;
+    protected bool $autoLoad = false;
 
 
     /**
@@ -202,7 +184,6 @@ class Factory
      *
      * @param array<string> $types
      * @param array<string, mixed> $params
-     * @param mixed $data
      * @param array<string> $interfaces
      * @param array<string> $traits
      */
@@ -211,7 +192,7 @@ class Factory
         ?int $rewind = 0,
         ?string $message = null,
         ?array $params = [],
-        $data = null,
+        mixed $data = null,
         ?Throwable $previous = null,
         ?int $code = null,
         ?string $file = null,
@@ -243,7 +224,6 @@ class Factory
      *
      * @param array<string> $types
      * @param array<string, mixed> $params
-     * @param mixed $data
      * @param array<string> $interfaces
      * @param array<string> $traits
      */
@@ -252,7 +232,7 @@ class Factory
         ?int $rewind,
         ?string $message,
         ?array $params,
-        $data,
+        mixed $data,
         ?Throwable $previous,
         ?int $code,
         ?string $file,
@@ -339,8 +319,10 @@ class Factory
      *
      * @param array<string, mixed>|null $frame
      */
-    protected function prepareTargetNamespace(?string $namespace, ?array $frame): void
-    {
+    protected function prepareTargetNamespace(
+        ?string $namespace,
+        ?array $frame
+    ): void {
         $this->namespace = $namespace;
 
         if (
@@ -766,8 +748,10 @@ class Factory
      *
      * @param array<string> $extends
      */
-    protected function defineInterface(string $interface, array $extends): void
-    {
+    protected function defineInterface(
+        string $interface,
+        array $extends
+    ): void {
         if (interface_exists($interface)) {
             return;
         }

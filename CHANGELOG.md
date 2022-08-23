@@ -1,3 +1,7 @@
+## v0.4.2 (2022-08-23)
+* Added zend.exception_ignore_args override
+* Added concrete types to all members
+
 ## v0.4.1 (2022-08-23)
 * Added extra class_exists check in Autoloader
 
