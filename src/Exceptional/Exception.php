@@ -13,18 +13,16 @@ use DecodeLabs\Glitch\Stack\PreparedTraceException;
 
 use Throwable;
 
-interface Exception extends Throwable, PreparedTraceException
+interface Exception extends
+    Throwable,
+    PreparedTraceException
 {
     /**
-     * @param mixed $data
      * @return $this
      */
-    public function setData($data): Exception;
+    public function setData(mixed $data): Exception;
 
-    /**
-     * @return mixed
-     */
-    public function getData();
+    public function getData(): mixed;
 
     /**
      * @return $this

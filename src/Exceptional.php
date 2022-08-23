@@ -27,17 +27,25 @@ final class Exceptional
      *
      * @param array<mixed> $args
      */
-    public static function __callStatic(string $type, array $args): Exception
-    {
+    public static function __callStatic(
+        string $type,
+        array $args
+    ): Exception {
         $type = trim($type);
 
-        if (!preg_match('|[.\\\\/]|', $type) && !preg_match('/^[A-Z]/', $type)) {
+        if (
+            !preg_match('|[.\\\\/]|', $type) &&
+            !preg_match('/^[A-Z]/', $type)
+        ) {
             throw new BadMethodCallException(
                 'Method ' . $type . ' is not available in Exceptional'
             );
         }
 
-        if (isset($args[0]) && is_array($args[0])) {
+        if (
+            isset($args[0]) &&
+            is_array($args[0])
+        ) {
             array_unshift($args, null);
         }
 

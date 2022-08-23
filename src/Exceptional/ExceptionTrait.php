@@ -21,48 +21,31 @@ use Throwable;
 
 trait ExceptionTrait
 {
-    /**
-     * @var int|null
-     */
-    protected $http;
-
-    /**
-     * @var mixed
-     */
-    protected $data;
-
-    /**
-     * @var int
-     */
-    protected $rewind;
-
-    /**
-     * @var Trace|null
-     */
-    protected $stackTrace;
-
-    /**
-     * @var string|null
-     */
-    protected $type;
+    protected ?int $http = null;
+    protected mixed $data;
+    protected int $rewind = 0;
+    protected ?Trace $stackTrace = null;
+    protected ?string $type = null;
 
     /**
      * @var array<string>
      */
-    protected $interfaces = [];
+    protected array $interfaces = [];
 
     /**
      * @var array<string, mixed>
      */
-    protected $params = [];
+    protected array $params = [];
 
     /**
      * Override the standard Exception constructor to simplify instantiation
      *
      * @param array<string, mixed> $params
      */
-    public function __construct(string $message, array $params = [])
-    {
+    public function __construct(
+        string $message,
+        array $params = []
+    ) {
         $args = [
             $message,
             Coercion::toInt($params['code'] ?? 0)
@@ -106,7 +89,7 @@ trait ExceptionTrait
     /**
      * Set arbitrary data
      */
-    public function setData($data): Exception
+    public function setData(mixed $data): Exception
     {
         $this->data = $data;
         return $this;
@@ -115,7 +98,7 @@ trait ExceptionTrait
     /**
      * Retrieve previously stored data
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
@@ -179,7 +162,7 @@ trait ExceptionTrait
     /**
      * Export for dump inspection
      *
-     * @return array<string, mixed>
+     * @return iterable<string, mixed>
      */
     public function glitchDump(): iterable
     {
