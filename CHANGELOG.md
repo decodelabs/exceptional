@@ -1,3 +1,5 @@
+* Updated CI environment
+
 ## v0.4.2 (2022-08-23)
 * Added zend.exception_ignore_args override
 * Added concrete types to all members
