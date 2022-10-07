@@ -12,6 +12,10 @@
 
 Exceptional aims to offer a radically enhanced Exception framework that decouples the _meaning_ of an Exception from the underlying _implementation_ functionality.
 
+_Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
+
+---
+
 ## Installation
 
 Install via Composer:
