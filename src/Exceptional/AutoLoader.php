@@ -47,7 +47,9 @@ class AutoLoader
     {
         if (
             !preg_match('/\\\\([a-zA-Z0-9_]*)Exception$/', $class) ||
-            class_exists($class)
+            class_exists($class) ||
+            interface_exists($class) ||
+            trait_exists($class)
         ) {
             return;
         }
