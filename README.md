@@ -3,7 +3,7 @@
 [![PHP from Packagist](https://img.shields.io/packagist/php-v/decodelabs/exceptional?style=flat)](https://packagist.org/packages/decodelabs/exceptional)
 [![Latest Version](https://img.shields.io/packagist/v/decodelabs/exceptional.svg?style=flat)](https://packagist.org/packages/decodelabs/exceptional)
 [![Total Downloads](https://img.shields.io/packagist/dt/decodelabs/exceptional.svg?style=flat)](https://packagist.org/packages/decodelabs/exceptional)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/decodelabs/exceptional/PHP%20Composer)](https://github.com/decodelabs/exceptional/actions/workflows/php.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/decodelabs/exceptional/Integrate)](https://github.com/decodelabs/exceptional/actions/workflows/integrate.yml)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-44CC11.svg?longCache=true&style=flat)](https://github.com/phpstan/phpstan)
 [![License](https://img.shields.io/packagist/l/decodelabs/exceptional?style=flat)](https://packagist.org/packages/decodelabs/exceptional)
 
@@ -11,6 +11,10 @@
 ### Better Exceptions for PHP
 
 Exceptional aims to offer a radically enhanced Exception framework that decouples the _meaning_ of an Exception from the underlying _implementation_ functionality.
+
+_Get news and updates on the [DecodeLabs blog](https://blog.decodelabs.com)._
+
+---
 
 ## Installation
 
