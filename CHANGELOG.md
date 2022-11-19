@@ -1,3 +1,4 @@
+* Migrated to use effigy in CI workflow
 * Fixed PHP8.1 testing
 
 ## v0.4.3 (2022-10-17)
