@@ -1,3 +1,7 @@
+## v0.4.4 (2023-09-26)
+* Migrated to use effigy in CI workflow
+* Fixed PHP8.1 testing
+
 ## v0.4.3 (2022-10-17)
 * Added interface and trait exists check in Autoloader
 * Updated composer check script

@@ -6,7 +6,7 @@ The libraries main aim is to generate dynamic Exceptions based on a set of crite
 
 Exceptional combines a number of techniques to create a predictable and easy to use interface to the Exception generator mechanism.
 
-Primarily, the main <code>Exceptional</code> static class provides as <code>__callStatic()</code> method that acts as a go-between to the Exception factory.
+Primarily, the main <code>Exceptional</code> static class provides a <code>__callStatic()</code> method that acts as a go-between to the Exception factory.
 
 One major benefit of this structure is making use of the ability to pass arbitrary strings as method names to <code>__callStatic()</code>.
 
