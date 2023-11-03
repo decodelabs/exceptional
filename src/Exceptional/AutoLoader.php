@@ -43,8 +43,9 @@ class AutoLoader
         }
     }
 
-    public static function loadClass(string $class): void
-    {
+    public static function loadClass(
+        string $class
+    ): void {
         if (
             !preg_match('/\\\\([a-zA-Z0-9_]*)Exception$/', $class) ||
             class_exists($class) ||

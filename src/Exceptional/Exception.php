@@ -20,14 +20,18 @@ interface Exception extends
     /**
      * @return $this
      */
-    public function setData(mixed $data): Exception;
+    public function setData(
+        mixed $data
+    ): Exception;
 
     public function getData(): mixed;
 
     /**
      * @return $this
      */
-    public function setHttpStatus(?int $code): Exception;
+    public function setHttpStatus(
+        ?int $code
+    ): Exception;
 
     public function getHttpStatus(): ?int;
 }
