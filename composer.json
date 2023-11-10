@@ -2,14 +2,14 @@
     "name": "decodelabs/exceptional",
     "description": "Better Exceptions for PHP",
     "type": "library",
-    "keywords": ["exception"],
+    "keywords": [ "exception" ],
     "license": "MIT",
-    "authors": [{
-        "name": "Tom Wright",
-        "email": "tom@inflatablecookie.com"
-    }],
+    "authors": [ {
+            "name": "Tom Wright",
+            "email": "tom@inflatablecookie.com"
+        } ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "symfony/polyfill-mbstring": "^1.7",
 
         "decodelabs/coercion": "^0.2",
