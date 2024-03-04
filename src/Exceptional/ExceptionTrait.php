@@ -89,8 +89,9 @@ trait ExceptionTrait
     /**
      * Set arbitrary data
      */
-    public function setData(mixed $data): Exception
-    {
+    public function setData(
+        mixed $data
+    ): Exception {
         $this->data = $data;
         return $this;
     }
@@ -107,8 +108,9 @@ trait ExceptionTrait
     /**
      * Associate error with HTTP status code
      */
-    public function setHttpStatus(?int $code): Exception
-    {
+    public function setHttpStatus(
+        ?int $code
+    ): Exception {
         $this->http = $code;
         return $this;
     }

@@ -9,9 +9,13 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
+use DecodeLabs\Wellspring;
+use DecodeLabs\Wellspring\Priority;
+
 class AutoLoader
 {
     protected static bool $registered = false;
+    protected static int $checkCount = 0;
 
     /**
      * Is registered as autoLoader
@@ -27,7 +31,7 @@ class AutoLoader
     public static function register(): void
     {
         if (!self::$registered) {
-            \spl_autoload_register([self::class, 'loadClass']);
+            Wellspring::register([self::class, 'loadClass'], Priority::Low);
             self::$registered = true;
         }
     }
@@ -38,13 +42,14 @@ class AutoLoader
     public static function unregister(): void
     {
         if (self::$registered) {
-            \spl_autoload_unregister([self::class, 'loadClass']);
+            Wellspring::unregister([self::class, 'loadClass']);
             self::$registered = false;
         }
     }
 
-    public static function loadClass(string $class): void
-    {
+    public static function loadClass(
+        string $class
+    ): void {
         if (
             !preg_match('/\\\\([a-zA-Z0-9_]*)Exception$/', $class) ||
             class_exists($class) ||

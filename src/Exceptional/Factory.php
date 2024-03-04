@@ -359,8 +359,9 @@ class Factory
      *
      * @param array<string> $types
      */
-    protected function importTypes(array $types): void
-    {
+    protected function importTypes(
+        array $types
+    ): void {
         foreach ($types as $type) {
             $type = trim($type);
 
@@ -455,8 +456,9 @@ class Factory
      *
      * @param array<string> $interfaces
      */
-    protected function importInterfaces(array $interfaces): void
-    {
+    protected function importInterfaces(
+        array $interfaces
+    ): void {
         foreach ($interfaces as $interface) {
             if (substr($interface, 0, 1) !== '\\') {
                 $interface = '\\' . $interface;
@@ -477,8 +479,9 @@ class Factory
      *
      * @param array<string> $traits
      */
-    protected function importTraits(array $traits): void
-    {
+    protected function importTraits(
+        array $traits
+    ): void {
         foreach ($traits as $trait) {
             if (substr($trait, 0, 1) !== '\\') {
                 $trait = '\\' . $trait;
@@ -530,8 +533,9 @@ class Factory
     /**
      * Add interface info to class extend list
      */
-    protected function indexInterface(string $interface): void
-    {
+    protected function indexInterface(
+        string $interface
+    ): void {
         $parts = explode('\\', ltrim($interface, '\\'));
         $name = substr((string)array_pop($parts), 0, -9);
 
@@ -603,8 +607,9 @@ class Factory
      *
      * @param array<string> $parts
      */
-    protected function indexNamespaceInterfaces(array $parts): ?string
-    {
+    protected function indexNamespaceInterfaces(
+        array $parts
+    ): ?string {
         $set = [];
         $first = $last = '\\DecodeLabs\\Exceptional\\Exception';
 
@@ -641,8 +646,9 @@ class Factory
     /**
      * Index package interface
      */
-    protected function indexPackageInterface(string $name): void
-    {
+    protected function indexPackageInterface(
+        string $name
+    ): void {
         $standard = static::STANDARD[$name];
         $prefix = '\\DecodeLabs\\Exceptional\\';
         $interface = $prefix . $name . 'Exception';
