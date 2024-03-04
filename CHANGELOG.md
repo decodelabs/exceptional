@@ -1,3 +1,4 @@
+* Use Wellspring for the Autoloader
 * Made PHP8.1 minimum version
 
 ## v0.4.4 (2023-09-26)
