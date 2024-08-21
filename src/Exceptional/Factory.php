@@ -11,7 +11,6 @@ namespace DecodeLabs\Exceptional;
 
 use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional\Exception as ExceptionInterface;
-
 use Exception as RootException;
 use InvalidArgumentException;
 use LogicException;
@@ -23,7 +22,7 @@ use Throwable;
  */
 class Factory
 {
-    public const STANDARD = [
+    protected const Standard = [
         'Logic' => [
             'type' => 'LogicException'
         ],
@@ -137,7 +136,7 @@ class Factory
     ];
 
 
-    public const REWIND = 2;
+    protected const Rewind = 2;
 
     /**
      * @var array<Exception>
@@ -147,7 +146,7 @@ class Factory
     protected ?string $message = null;
 
     /**
-     * @var array<string, mixed>
+     * @var array<string,mixed>
      */
     protected array $params = [];
 
@@ -270,8 +269,8 @@ class Factory
             0
         );
 
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + static::REWIND + 1));
-        $key = $rewind + static::REWIND;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + static::Rewind + 1));
+        $key = $rewind + static::Rewind;
         $lastTrace = $trace[$key - 1];
 
         $this->params['file'] = $file ?? $params['file'] ?? $lastTrace['file'] ?? null;
@@ -575,7 +574,7 @@ class Factory
 
 
         // Package
-        if (isset(static::STANDARD[$name])) {
+        if (isset(static::Standard[$name])) {
             $this->indexPackageInterface($name);
 
             // Interface
@@ -649,7 +648,7 @@ class Factory
     protected function indexPackageInterface(
         string $name
     ): void {
-        $standard = static::STANDARD[$name];
+        $standard = static::Standard[$name];
         $prefix = '\\DecodeLabs\\Exceptional\\';
         $interface = $prefix . $name . 'Exception';
 
