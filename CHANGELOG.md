@@ -1,3 +1,5 @@
+* Converted consts to protected PascalCase
+
 ## v0.4.5 (2024-03-34)
 * Use Wellspring for the Autoloader
 * Made PHP8.1 minimum version
