@@ -5,6 +5,7 @@
 declare(strict_types=1);
 
 use Symplify\EasyCodingStandard\Config\ECSConfig;
+use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
 
 return ECSConfig::configure()
     ->withPaths([
@@ -13,4 +14,7 @@ return ECSConfig::configure()
     ->withPreparedSets(
         cleanCode: true,
         psr12: true
-    );
+    )
+    ->withSkip([
+        ProtectedToPrivateFixer::class
+    ]);
