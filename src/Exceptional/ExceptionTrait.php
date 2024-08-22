@@ -10,15 +10,16 @@ declare(strict_types=1);
 namespace DecodeLabs\Exceptional;
 
 use DecodeLabs\Coercion;
-
 use DecodeLabs\Glitch\Proxy;
 use DecodeLabs\Glitch\Stack\Frame;
 use DecodeLabs\Glitch\Stack\Trace;
-
 use ErrorException;
 use Exception as RootException;
 use Throwable;
 
+/**
+ * @phpstan-require-implements Exception
+ */
 trait ExceptionTrait
 {
     protected ?int $http = null;
