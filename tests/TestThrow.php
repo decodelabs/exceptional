@@ -11,8 +11,10 @@ namespace DecodeLabs\Exceptional\Tests;
 
 use DecodeLabs\Exceptional;
 
-throw Exceptional::Runtime('This is a test', [
-    'http' => 404
-], [
-    'data' => 'This is data'
-]);
+throw Exceptional::Runtime(
+    message: 'This is a test',
+    http: 404,
+    data: [
+        'data' => 'This is data'
+    ]
+);

@@ -11,6 +11,9 @@ namespace DecodeLabs\Exceptional;
 
 use ReflectionFunctionAbstract;
 
+/**
+ * @phpstan-require-implements IncompleteException
+ */
 trait IncompleteExceptionTrait
 {
     /**

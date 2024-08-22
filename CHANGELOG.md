@@ -1,3 +1,6 @@
+* Added generic call signature for PHPStan
+* Added @phpstan-require-implements constraints
+
 ## v0.4.6 (2024-08-21)
 * Converted consts to protected PascalCase
 
