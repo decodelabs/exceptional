@@ -1,3 +1,4 @@
+## v0.4.7 (2024-08-22)
 * Added generic call signature for PHPStan
 * Added @phpstan-require-implements constraints
 
