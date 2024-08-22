@@ -43,16 +43,17 @@ throw Exceptional::{'NotFound,BadMethodCall'}(
 );
 
 // You can associate a http code too..
-throw Exceptional::CompletelyMadeUpMeaning('My message', [
-    'code' => 1234,
-    'http' => 501
-]);
+throw Exceptional::CompletelyMadeUpMeaning(
+    message: 'My message',
+    code: 1234,
+    http: 501
+);
 
 // Implement already existing Exception interfaces
 throw Exceptional::{'InvalidArgument,Psr\\Cache\\InvalidArgumentException'}(
-    'Cache items must implement Cache\\IItem',
-    ['http' => 500],  // params
-    $item             // data
+    message: 'Cache items must implement Cache\\IItem',
+    http: 500,
+    data: $item
 );
 
 // Reference interfaces using a path style
@@ -99,9 +100,12 @@ trait BadThingExceptionTrait {
 class Thing {
 
     public function doAThing() {
-        throw Exceptional::BadThing('A bad thing happened', [
-            'customData' => 'My custom info'
-        ]);
+        throw Exceptional::BadThing(
+            message: 'A bad thing happened',
+            data: [
+                'customData' => 'My custom info'
+            ]
+        );
     }
 }
 ```
