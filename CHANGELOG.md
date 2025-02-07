@@ -1,3 +1,5 @@
+## v0.4.8 (2025-02-07)
+* Removed ref to E_STRICT
 * Fixed PHPStan signature visibility
 
 ## v0.4.7 (2024-08-22)
