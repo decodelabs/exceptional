@@ -30,7 +30,7 @@ final class Exceptional
      * @param array<string> $interfaces
      * @param array<string> $traits
      */
-    private static function _phpstan(
+    protected static function _phpstan(
         ?string $message = null,
         ?array $params = [],
         mixed $data = null,
