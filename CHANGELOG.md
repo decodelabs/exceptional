@@ -1,3 +1,6 @@
+## v0.5.2 (2025-02-11)
+* Regained max PHPStan conformance
+
 ## v0.5.1 (2025-02-11)
 * Fixed PHP min version
 

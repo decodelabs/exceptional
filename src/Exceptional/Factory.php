@@ -139,7 +139,7 @@ class Factory
     protected const Rewind = 2;
 
     /**
-     * @var array<Exception>
+     * @var array<string,Exception>
      */
     private static array $instances = [];
 
@@ -258,8 +258,8 @@ class Factory
 
         // Params
         $rewind = $params->rewind;
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + static::Rewind + 1));
-        $key = $rewind + static::Rewind;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + self::Rewind + 1));
+        $key = $rewind + self::Rewind;
         $lastTrace = $trace[$key - 1];
 
         $params->file = $file ?? $lastTrace['file'] ?? null;
@@ -546,7 +546,7 @@ class Factory
 
 
         // Package
-        if (isset(static::Standard[$name])) {
+        if (isset(self::Standard[$name])) {
             $this->indexPackageInterface($name);
 
             // Interface
@@ -620,7 +620,7 @@ class Factory
     protected function indexPackageInterface(
         string $name
     ): void {
-        $standard = static::Standard[$name];
+        $standard = self::Standard[$name] ?? [];
         $prefix = '\\DecodeLabs\\Exceptional\\';
         $interface = $prefix . $name . 'Exception';
 
@@ -756,7 +756,9 @@ class Factory
         $hash = md5($this->exceptionDef);
 
         if (!isset(self::$instances[$hash])) {
-            self::$instances[$hash] = eval($this->exceptionDef);
+            /** @var Exception $blueprint */
+            $blueprint = eval($this->exceptionDef);
+            self::$instances[$hash] = $blueprint;
         }
 
         // Remove defs from $GLOBALS again
