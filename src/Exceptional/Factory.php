@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Coercion;
 use DecodeLabs\Exceptional\Exception as ExceptionInterface;
+use DecodeLabs\Glitch\Stack\Trace;
 use Exception as RootException;
 use InvalidArgumentException;
 use LogicException;
@@ -143,100 +143,97 @@ class Factory
      */
     private static array $instances = [];
 
-    protected ?string $message = null;
 
-    /**
-     * @var array<string,mixed>
-     */
-    protected array $params = [];
+    protected Parameters $parameters;
 
-    protected ?string $baseClass = null;
+
     protected ?string $namespace = null;
 
     /**
-     * @var array<string, bool>
+     * @var array<string,bool>
      */
-    protected array $interfaces = [];
+    private array $interfaces = [];
 
     /**
-     * @var array<string, bool>
+     * @var array<string,bool>
      */
-    protected array $traits = [];
+    private array $traits = [];
 
 
     /**
      * @var array<string, array<string>>
      */
-    protected array $interfaceIndex = [];
+    private array $interfaceIndex = [];
 
     /**
      * @var array<string, string>
      */
-    protected array $interfaceDefs = [];
+    private array $interfaceDefs = [];
 
-    protected string $exceptionDef;
-    protected bool $autoLoad = false;
+    private string $exceptionDef;
+    private bool $autoLoad = false;
 
 
     /**
      * Generate a context specific, message oriented throwable error
      *
-     * @param array<string> $types
-     * @param array<string, mixed> $params
-     * @param array<string> $interfaces
-     * @param array<string> $traits
+     * @param list<string> $types
+     * @param list<string> $interfaces
+     * @param list<string> $traits
      */
     public static function create(
         array $types,
-        ?int $rewind = 0,
         ?string $message = null,
-        ?array $params = [],
-        mixed $data = null,
-        ?Throwable $previous = null,
+        ?int $http = null,
         ?int $code = null,
+        ?int $severity = null,
+        mixed $data = null,
+        ?int $rewind = 0,
         ?string $file = null,
         ?int $line = null,
-        ?int $http = null,
+        ?Trace $stackTrace = null,
+        ?Throwable $previous = null,
         ?string $namespace = null,
         ?array $interfaces = null,
         ?array $traits = null
     ): Exception {
-        return (new self(
-            $types,
-            $rewind,
-            $message,
-            $params,
-            $data,
-            $previous,
-            $code,
-            $file,
-            $line,
-            $http,
-            $namespace,
-            $interfaces,
-            $traits
-        ))->build();
+        return new self(
+            types: $types,
+            message: $message,
+            http: $http,
+            code: $code,
+            severity: $severity,
+            data: $data,
+            rewind: $rewind,
+            file: $file,
+            line: $line,
+            stackTrace: $stackTrace,
+            previous: $previous,
+            namespace: $namespace,
+            interfaces: $interfaces,
+            traits: $traits
+        )->build();
     }
 
     /**
      * Begin new factory process
      *
-     * @param array<string> $types
-     * @param array<string, mixed> $params
-     * @param array<string> $interfaces
-     * @param array<string> $traits
+     * @param list<string> $types
+     * @param list<string> $interfaces
+     * @param list<string> $traits
      */
     protected function __construct(
         array $types,
-        ?int $rewind,
         ?string $message,
-        ?array $params,
-        mixed $data,
-        ?Throwable $previous,
+        ?int $http,
         ?int $code,
+        ?int $severity,
+        mixed $data,
+        ?int $rewind,
         ?string $file,
         ?int $line,
-        ?int $http,
+        ?Trace $stackTrace,
+        ?Throwable $previous,
         ?string $namespace,
         ?array $interfaces,
         ?array $traits
@@ -245,47 +242,32 @@ class Factory
         $this->autoLoad = AutoLoader::isRegistered();
         AutoLoader::unregister();
 
-        // Message
-        $this->message =
-            $message ??
-            Coercion::toStringOrNull($params['message'] ?? null) ??
-            'Undefined error';
-
-
-        // Params
-        $this->params = $params ?? [];
-        $this->params['data'] = $data ?? $params['data'] ?? null;
-        $this->params['previous'] = $previous ?? $params['previous'] ?? null;
-        $this->params['code'] = Coercion::toInt($code ?? $params['code'] ?? 0);
-        $this->params['http'] = $http ?? $params['http'] ?? null;
-
-        if (!$this->params['previous'] instanceof Throwable) {
-            $this->params['previous'] = null;
-        }
-
-        // Trace
-        $this->params['rewind'] = $rewind = (int)max(
-            $rewind ?? Coercion::toIntOrNull($params['rewind'] ?? null) ?? 1,
-            0
+        $this->parameters = $params = new Parameters(
+            message: $message ?? 'Undefined error',
+            code: $code,
+            http: $http,
+            severity: $severity,
+            data: $data,
+            rewind: $rewind ?? 1,
+            stackTrace: $stackTrace,
+            previous: $previous,
+            namespace: $namespace,
+            interfaces: $interfaces,
+            traits: $traits
         );
 
+        // Params
+        $rewind = $params->rewind;
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + static::Rewind + 1));
         $key = $rewind + static::Rewind;
         $lastTrace = $trace[$key - 1];
 
-        $this->params['file'] = $file ?? $params['file'] ?? $lastTrace['file'] ?? null;
-        $this->params['line'] = $line ?? $params['line'] ?? $lastTrace['line'] ?? null;
-
-        if (!is_string($this->params['file'])) {
-            $this->params['file'] = null;
-        }
-        if (!is_int($this->params['line'])) {
-            $this->params['line'] = null;
-        }
+        $params->file = $file ?? $lastTrace['file'] ?? null;
+        $params->line = $line ?? $lastTrace['line'] ?? null;
 
         // Namespace
         $this->prepareTargetNamespace(
-            Coercion::toStringOrNull($namespace ?? $params['namespace'] ?? null),
+            $params->namespace,
             $trace[$key] ?? null
         );
 
@@ -295,28 +277,15 @@ class Factory
         $this->traits['\\DecodeLabs\\Exceptional\\ExceptionTrait'] = true;
 
         $this->importTypes($types);
-        $this->importInterfaces($interfaces ?? []);
-        /* @phpstan-ignore-next-line */
-        $this->importInterfaces(Coercion::toArray($this->params['interfaces'] ?? []));
-        $this->importTraits($traits ?? []);
-        /* @phpstan-ignore-next-line */
-        $this->importTraits(Coercion::toArray($this->params['traits'] ?? []));
-
-
-        // Cleanup
-        unset(
-            $this->params['message'],
-            $this->params['namespace'],
-            $this->params['interfaces'],
-            $this->params['traits']
-        );
+        $this->importInterfaces($params->interfaces);
+        $this->importTraits($params->traits);
     }
 
 
     /**
      * Prepare target namespace
      *
-     * @param array<string, mixed>|null $frame
+     * @param array<string,mixed>|null $frame
      */
     protected function prepareTargetNamespace(
         ?string $namespace,
@@ -328,7 +297,11 @@ class Factory
             $this->namespace === null &&
             $frame !== null
         ) {
-            $class = Coercion::toStringOrNull($frame['class'] ?? null);
+            $class = $frame['class'] ?? null;
+
+            if(!is_string($class)) {
+                $class = null;
+            }
 
             if (!empty($class)) {
                 if (false !== strpos($class, 'class@anon')) {
@@ -431,13 +404,13 @@ class Factory
                 class_exists($type) &&
                 is_a($type, RootException::class, true)
             ) {
-                if ($this->baseClass !== null) {
+                if ($this->parameters->type !== null) {
                     throw new InvalidArgumentException(
-                        'Exception has already defined base type: ' . $this->baseClass
+                        'Exception has already defined base type: ' . $this->parameters->type
                     );
                 }
 
-                $this->baseClass = trim($type, '\\');
+                $this->parameters->type = trim($type, '\\');
             }
 
             // Ensure root slash
@@ -516,9 +489,8 @@ class Factory
         $hash = $this->compileDefinitions();
 
         // Params
-        $params = $this->params;
-        $params['type'] = $this->baseClass;
-        $params['interfaces'] = $interfaces;
+        $this->parameters->interfaces = $interfaces;
+        $this->parameters->traits = array_keys($this->traits);
 
         // Reenable AutoLoader
         if ($this->autoLoad) {
@@ -526,7 +498,7 @@ class Factory
         }
 
         // Instantiate
-        return new self::$instances[$hash]($this->message, $params);
+        return new self::$instances[$hash]($this->parameters);
     }
 
     /**
@@ -561,15 +533,15 @@ class Factory
             $baseClass = trim($interface, '\\');
 
             if (
-                $this->baseClass !== null &&
-                $this->baseClass !== $baseClass
+                $this->parameters->type !== null &&
+                $this->parameters->type !== $baseClass
             ) {
                 throw new InvalidArgumentException(
-                    'Exception has already defined base type: ' . $this->baseClass
+                    'Exception has already defined base type: ' . $this->parameters->type
                 );
             }
 
-            $this->baseClass = $baseClass;
+            $this->parameters->type = $baseClass;
         }
 
 
@@ -658,17 +630,17 @@ class Factory
         // Base class
         if (
             isset($standard['type']) &&
-            $this->baseClass === null
+            $this->parameters->type === null
         ) {
-            $this->baseClass = $standard['type'];
+            $this->parameters->type = $standard['type'];
         }
 
         // Http
         if (
             isset($standard['http']) &&
-            !isset($this->params['http'])
+            !isset($this->parameters->http)
         ) {
-            $this->params['http'] = $standard['http'];
+            $this->parameters->http = $standard['http'];
         }
 
 
@@ -694,13 +666,13 @@ class Factory
     /**
      * Build interface definitions
      *
-     * @return array<string>
+     * @return list<string>
      */
     protected function buildDefinitions(): array
     {
         // Ensure base class
-        if ($this->baseClass === null) {
-            $this->baseClass = RootException::class;
+        if ($this->parameters->type === null) {
+            $this->parameters->type = RootException::class;
         }
 
         // Create definitions for needed interfaces
@@ -712,7 +684,7 @@ class Factory
 
 
         // Build class def
-        $this->exceptionDef = 'return new class(\'\') extends ' . $this->baseClass;
+        $this->exceptionDef = 'return new class() extends ' . $this->parameters->type;
         $interfaceMap = $this->interfaceIndex;
 
         foreach ($this->interfaceIndex as $interface => $extends) {
@@ -745,7 +717,7 @@ class Factory
             }
         }
 
-        return $interfaces;
+        return array_values($interfaces);
     }
 
     /**

@@ -1,3 +1,14 @@
+## v0.5.0 (2025-02-11)
+* Standardised Factory interface
+* Simplified parameter handling
+* Updated stack frame handling
+* Replaced getters with properties
+* Imported PHPStan extension from shared package
+* Added test for IncompleteException
+* Upgraded PHPStan to v2
+* Added PHP8.4 to CI workflow
+* Made PHP8.4 the minimum version
+
 ## v0.4.8 (2025-02-07)
 * Removed ref to E_STRICT
 * Fixed PHPStan signature visibility

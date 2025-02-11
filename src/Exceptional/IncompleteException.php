@@ -13,5 +13,5 @@ use ReflectionFunctionAbstract;
 
 interface IncompleteException extends Exception
 {
-    public function getReflection(): ?ReflectionFunctionAbstract;
+    public ?ReflectionFunctionAbstract $reflection { get; }
 }
