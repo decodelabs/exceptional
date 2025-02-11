@@ -59,6 +59,10 @@ class AutoLoader
             return;
         }
 
-        Factory::create([$class], 1, 'AutoLoader');
+        Factory::create(
+            types: [$class],
+            rewind: 1,
+            message: 'AutoLoader'
+        );
     }
 }

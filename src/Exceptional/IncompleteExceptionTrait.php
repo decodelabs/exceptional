@@ -19,8 +19,7 @@ trait IncompleteExceptionTrait
     /**
      * Get Reflection object for active function in stack frame
      */
-    public function getReflection(): ?ReflectionFunctionAbstract
-    {
-        return $this->getStackTrace()[1]->getReflection();
+    public ?ReflectionFunctionAbstract $reflection {
+        get => $this->stackFrame?->reflection;
     }
 }
