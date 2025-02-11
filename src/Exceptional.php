@@ -82,10 +82,7 @@ final class Exceptional
             );
         }
 
-        $params = [
-            'types' => explode(',', $type),
-            'rewind' => 1
-        ];
+        $params = [];
 
         if (
             isset($args[0]) &&
@@ -117,6 +114,10 @@ final class Exceptional
             $params[$key] = $arg;
         }
 
+        $params['types'] = explode(',', $type);
+        $params['rewind'] ??= 1;
+
+        // @phpstan-ignore-next-line
         return Factory::create(...$params);
     }
 }
