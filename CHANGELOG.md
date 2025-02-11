@@ -1,3 +1,6 @@
+## v0.5.1 (2025-02-11)
+* Fixed PHP min version
+
 ## v0.5.0 (2025-02-11)
 * Standardised Factory interface
 * Simplified parameter handling
