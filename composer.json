@@ -10,10 +10,10 @@
         } ],
     "require": {
         "php": "^8.4",
-        "symfony/polyfill-mbstring": "^1.7",
+        "symfony/polyfill-mbstring": "^1.31",
 
-        "decodelabs/glitch-support": "^0.5",
-        "decodelabs/wellspring": "^0.1.0"
+        "decodelabs/glitch-support": "^0.5.1",
+        "decodelabs/wellspring": "^0.1.2"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7"

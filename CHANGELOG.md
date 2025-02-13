@@ -1,3 +1,5 @@
+* Updated dependencies
+
 ## v0.5.2 (2025-02-11)
 * Regained max PHPStan conformance
 
