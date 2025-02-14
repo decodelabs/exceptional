@@ -9,7 +9,8 @@ use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
 
 return ECSConfig::configure()
     ->withPaths([
-        __DIR__ . '/src'
+        __DIR__ . '/src',
+        __DIR__ . '/tests'
     ])
     ->withPreparedSets(
         cleanCode: true,
