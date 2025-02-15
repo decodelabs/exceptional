@@ -1,3 +1,4 @@
+* Fixed $http and $code property hooks
 * Updated dependencies
 
 ## v0.5.2 (2025-02-11)

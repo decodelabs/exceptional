@@ -26,12 +26,12 @@ trait ExceptionTrait
 
     public ?int $http {
         get => $this->parameters->http;
-        set => $this->parameters->http = $value;
+        set { $this->parameters->http = $value; }
     }
 
     public mixed $data {
         get => $this->parameters->data;
-        set => $this->parameters->data = $value;
+        set { $this->parameters->data = $value; }
     }
 
     public Trace $stackTrace {
