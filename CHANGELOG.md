@@ -1,3 +1,7 @@
+## v0.5.3 (2025-02-14)
+* Fixed $http and $code property hooks
+* Updated dependencies
+
 ## v0.5.2 (2025-02-11)
 * Regained max PHPStan conformance
 
