@@ -1,3 +1,4 @@
+## v0.5.3 (2025-02-14)
 * Fixed $http and $code property hooks
 * Updated dependencies
 
