@@ -16,6 +16,7 @@ interface Exception extends
     Throwable,
     PreparedTraceException
 {
+    public Parameters $parameters { get; }
     public ?int $http { get; set; }
     public mixed $data { get; set; }
 }
