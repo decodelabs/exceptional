@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Glitch\Stack\Frame;
-use DecodeLabs\Glitch\Stack\PreparedTraceException;
-use DecodeLabs\Glitch\Stack\Trace;
+use DecodeLabs\Remnant\PreparedTraceException;
 use Throwable;
 
 interface Exception extends

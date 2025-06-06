@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Exceptional;
 
 use DecodeLabs\Exceptional\Exception as ExceptionInterface;
-use DecodeLabs\Glitch\Stack\Trace;
+use DecodeLabs\Remnant\Trace;
 use Exception as RootException;
 use InvalidArgumentException;
 use LogicException;
@@ -273,7 +273,6 @@ class Factory
 
         // Inheritance
         $this->interfaceIndex['\\DecodeLabs\\Exceptional\\Exception'] = [];
-        $this->interfaceIndex['\\DecodeLabs\\Glitch\\Dumpable'] = [];
         $this->traits['\\DecodeLabs\\Exceptional\\ExceptionTrait'] = true;
 
         $this->importTypes($types);

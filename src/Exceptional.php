@@ -12,7 +12,7 @@ namespace DecodeLabs;
 use BadMethodCallException;
 use DecodeLabs\Exceptional\Exception;
 use DecodeLabs\Exceptional\Factory;
-use DecodeLabs\Glitch\Stack\Trace;
+use DecodeLabs\Remnant\Trace;
 use Throwable;
 
 final class Exceptional

@@ -9,12 +9,11 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Glitch\Proxy;
-use DecodeLabs\Glitch\Stack\Frame;
-use DecodeLabs\Glitch\Stack\Trace;
+use DecodeLabs\Monarch;
+use DecodeLabs\Remnant\Frame;
+use DecodeLabs\Remnant\Trace;
 use ErrorException;
 use Exception as RootException;
-use Throwable;
 
 /**
  * @phpstan-require-implements Exception
@@ -22,7 +21,7 @@ use Throwable;
  */
 trait ExceptionTrait
 {
-    protected Parameters $parameters;
+    protected(set) Parameters $parameters;
 
     public ?int $http {
         get => $this->parameters->http;
@@ -89,84 +88,18 @@ trait ExceptionTrait
      */
     public function __toString(): string
     {
+        $file = $this->getFile();
+
+        // @phpstan-ignore-next-line
+        if(class_exists(Monarch::class)) {
+            // @phpstan-ignore-next-line
+            $file = Monarch::$paths->prettify($file);
+        }
+
+        /** @var string $file */
+
         return $this->getMessage() . "\n" .
-            'in ' . Proxy::normalizePath($this->getFile()) . ' : ' . $this->getLine() . "\n\n" .
+            'in ' . $file . ' : ' . $this->getLine() . "\n\n" .
             $this->stackTrace;
-    }
-
-
-    /**
-     * Export for dump inspection
-     *
-     * @return iterable<string, mixed>
-     */
-    public function glitchDump(): iterable
-    {
-        $parts = [];
-
-        if (!empty($this->parameters->interfaces)) {
-            $parts = $this->parameters->interfaces;
-        }
-
-        if (
-            isset($this->parameters->type) &&
-            $this->parameters->type !== 'Exception'
-        ) {
-            $parts[] = $this->parameters->type;
-        }
-
-        if (!empty($parts)) {
-            foreach ($parts as $i => $part) {
-                $inner = explode('\\', $part);
-                $parts[$i] = array_pop($inner);
-
-                if ($parts[$i] === 'Exception') {
-                    unset($parts[$i]);
-                }
-            }
-
-            $parts = array_unique($parts);
-            yield 'name' => implode(' | ', $parts);
-        }
-
-        yield 'type' => 'exception';
-        yield 'text' => $this->message;
-        yield 'class' => '@Exceptional';
-        yield 'property:*code' => $this->code;
-        yield 'property:*http' => $this->parameters->http;
-
-        yield '^property:!previous' => $this->getPrevious();
-        yield 'values' => $this->parameters->data !== null ? ['data' => $this->parameters->data] : null;
-        yield 'showKeys' => false;
-        yield 'file' => $this->file;
-        yield 'startLine' => $this->line;
-        yield 'stackTrace' => $this->stackTrace;
-
-
-        // Severity
-        if (null !== (
-            $severity = $this->parameters->severity
-        )) {
-            $defs = [];
-            $constants = [
-                'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE',
-                'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR',
-                'E_COMPILE_WARNING', 'E_USER_ERROR', 'E_USER_WARNING',
-                'E_USER_NOTICE', 'E_RECOVERABLE_ERROR',
-                'E_DEPRECATED', 'E_USER_DEPRECATED'
-            ];
-
-            foreach ($constants as $constant) {
-                $value = constant($constant);
-
-                if ($severity & $value) {
-                    $defs[] = $constant;
-                }
-            }
-
-            if (!empty($defs)) {
-                yield 'definition' => implode(' | ', $defs);
-            }
-        }
     }
 }

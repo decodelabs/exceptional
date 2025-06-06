@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional;
 
-use DecodeLabs\Glitch\Stack\Trace;
+use DecodeLabs\Remnant\Trace;
 use Stringable;
 use Throwable;
 
