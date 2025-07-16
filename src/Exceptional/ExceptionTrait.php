@@ -21,7 +21,7 @@ use Exception as RootException;
  */
 trait ExceptionTrait
 {
-    protected(set) Parameters $parameters;
+    public protected(set) Parameters $parameters;
 
     public ?int $http {
         get => $this->parameters->http;
@@ -91,7 +91,7 @@ trait ExceptionTrait
         $file = $this->getFile();
 
         // @phpstan-ignore-next-line
-        if(class_exists(Monarch::class)) {
+        if (class_exists(Monarch::class)) {
             // @phpstan-ignore-next-line
             $file = Monarch::$paths->prettify($file);
         }

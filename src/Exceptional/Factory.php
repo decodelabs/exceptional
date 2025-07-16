@@ -298,7 +298,7 @@ class Factory
         ) {
             $class = $frame['class'] ?? null;
 
-            if(!is_string($class)) {
+            if (!is_string($class)) {
                 $class = null;
             }
 

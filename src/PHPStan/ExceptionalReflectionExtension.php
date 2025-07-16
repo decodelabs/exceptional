@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace DecodeLabs\PHPStan;
 
 use DecodeLabs\Exceptional;
-use DecodeLabs\PHPStan\MethodReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection as MethodReflectionInterface;
 use PHPStan\Reflection\MethodsClassReflectionExtension;

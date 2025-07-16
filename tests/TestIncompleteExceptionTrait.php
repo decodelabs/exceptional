@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace DecodeLabs\Exceptional\Tests;
 
-use DecodeLabs\Exceptional;
 use DecodeLabs\Exceptional\Exception;
 use DecodeLabs\Exceptional\ExceptionTrait;
 use DecodeLabs\Exceptional\IncompleteException;

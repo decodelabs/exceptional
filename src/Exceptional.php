@@ -93,8 +93,8 @@ final class Exceptional
             $args = [];
         }
 
-        foreach($args as $key => $arg) {
-            $key = match($key) {
+        foreach ($args as $key => $arg) {
+            $key = match ($key) {
                 0 => 'message',
                 1 => 'code',
                 2 => 'http',

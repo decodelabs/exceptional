@@ -74,7 +74,7 @@ class Parameters
         ?array $interfaces = [],
         ?array $traits = []
     ) {
-        if($message !== null) {
+        if ($message !== null) {
             $this->message = (string)$message;
         }
 
