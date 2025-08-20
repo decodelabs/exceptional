@@ -19,7 +19,7 @@
         "decodelabs/phpstan-decodelabs": "^0.7"
     },
     "conflict": {
-        "decodelabs/monarch": "<0.1.3"
+        "decodelabs/monarch": "<0.2"
     },
     "autoload": {
         "psr-4": {

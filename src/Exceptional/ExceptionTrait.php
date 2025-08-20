@@ -93,7 +93,7 @@ trait ExceptionTrait
         // @phpstan-ignore-next-line
         if (class_exists(Monarch::class)) {
             // @phpstan-ignore-next-line
-            $file = Monarch::$paths->prettify($file);
+            $file = Monarch::getPaths()->prettify($file);
         }
 
         /** @var string $file */
