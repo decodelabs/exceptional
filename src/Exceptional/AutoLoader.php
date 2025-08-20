@@ -17,17 +17,11 @@ class AutoLoader
     protected static bool $registered = false;
     protected static int $checkCount = 0;
 
-    /**
-     * Is registered as autoLoader
-     */
     public static function isRegistered(): bool
     {
         return self::$registered;
     }
 
-    /**
-     * Register as autoloader
-     */
     public static function register(): void
     {
         if (!self::$registered) {
@@ -36,9 +30,6 @@ class AutoLoader
         }
     }
 
-    /**
-     * Unregister as autoloader
-     */
     public static function unregister(): void
     {
         if (self::$registered) {

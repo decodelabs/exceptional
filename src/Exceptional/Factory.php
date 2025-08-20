@@ -16,10 +16,6 @@ use InvalidArgumentException;
 use LogicException;
 use Throwable;
 
-/**
- * Automatically generate Exceptions on the fly based on scope and
- * requested interface types
- */
 class Factory
 {
     protected const Standard = [
@@ -175,8 +171,6 @@ class Factory
 
 
     /**
-     * Generate a context specific, message oriented throwable error
-     *
      * @param list<string> $types
      * @param list<string> $interfaces
      * @param list<string> $traits
@@ -216,8 +210,6 @@ class Factory
     }
 
     /**
-     * Begin new factory process
-     *
      * @param list<string> $types
      * @param list<string> $interfaces
      * @param list<string> $traits
@@ -282,8 +274,6 @@ class Factory
 
 
     /**
-     * Prepare target namespace
-     *
      * @param array<string,mixed>|null $frame
      */
     protected function prepareTargetNamespace(
@@ -326,8 +316,6 @@ class Factory
 
 
     /**
-     * Import type definitions
-     *
      * @param array<string> $types
      */
     protected function importTypes(
@@ -423,8 +411,6 @@ class Factory
 
 
     /**
-     * Import interface definitions
-     *
      * @param array<string> $interfaces
      */
     protected function importInterfaces(
@@ -446,8 +432,6 @@ class Factory
     }
 
     /**
-     * Import trait definitions
-     *
      * @param array<string> $traits
      */
     protected function importTraits(
@@ -471,9 +455,6 @@ class Factory
 
 
 
-    /**
-     * Build exception
-     */
     public function build(): Exception
     {
         // Named interfaces
@@ -500,9 +481,6 @@ class Factory
         return new self::$instances[$hash]($this->parameters);
     }
 
-    /**
-     * Add interface info to class extend list
-     */
     protected function indexInterface(
         string $interface
     ): void {
@@ -573,8 +551,6 @@ class Factory
     }
 
     /**
-     * Index namespace interface
-     *
      * @param array<string> $parts
      */
     protected function indexNamespaceInterfaces(
@@ -613,9 +589,6 @@ class Factory
     }
 
 
-    /**
-     * Index package interface
-     */
     protected function indexPackageInterface(
         string $name
     ): void {
@@ -663,8 +636,6 @@ class Factory
 
 
     /**
-     * Build interface definitions
-     *
      * @return list<string>
      */
     protected function buildDefinitions(): array
@@ -720,8 +691,6 @@ class Factory
     }
 
     /**
-     * Define interface
-     *
      * @param array<string> $extends
      */
     protected function defineInterface(
@@ -741,9 +710,6 @@ class Factory
     }
 
 
-    /**
-     * Compile definitions using eval()
-     */
     protected function compileDefinitions(): string
     {
         $defs = implode("\n", $this->interfaceDefs);

@@ -83,9 +83,6 @@ trait ExceptionTrait
         $this->line = $params->line ?? 0;
     }
 
-    /**
-     * Convert to string
-     */
     public function __toString(): string
     {
         $file = $this->getFile();

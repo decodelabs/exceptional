@@ -17,16 +17,11 @@ use Throwable;
 
 final class Exceptional
 {
-    /**
-     * Protected constructor inhibits instantiation
-     */
     private function __construct()
     {
     }
 
     /**
-     * Generic call signature for PHPStan
-     *
      * @param list<string> $interfaces
      * @param list<string> $traits
      */
@@ -63,8 +58,6 @@ final class Exceptional
     }
 
     /**
-     * Description
-     *
      * @param array<int|string,mixed> $args
      */
     public static function __callStatic(

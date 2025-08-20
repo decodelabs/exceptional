@@ -16,9 +16,6 @@ use ReflectionFunctionAbstract;
  */
 trait IncompleteExceptionTrait
 {
-    /**
-     * Get Reflection object for active function in stack frame
-     */
     public ?ReflectionFunctionAbstract $reflection {
         get => $this->stackFrame?->reflection;
     }
