@@ -16,6 +16,8 @@ Exceptional aims to offer a radically enhanced Exception framework that decouple
 
 ## Installation
 
+This package requires PHP 8.4 or higher.
+
 Install via Composer:
 
 ```bash
