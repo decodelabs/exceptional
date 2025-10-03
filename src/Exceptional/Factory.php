@@ -240,7 +240,7 @@ class Factory
             http: $http,
             severity: $severity,
             data: $data,
-            rewind: $rewind ?? 1,
+            rewind: ($rewind ?? 0) + 1,
             stackTrace: $stackTrace,
             previous: $previous,
             namespace: $namespace,
