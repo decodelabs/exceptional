@@ -17,6 +17,6 @@ use ReflectionFunctionAbstract;
 trait IncompleteExceptionTrait
 {
     public ?ReflectionFunctionAbstract $reflection {
-        get => $this->stackFrame?->reflection;
+        get => $this->stackFrame?->function->reflection;
     }
 }

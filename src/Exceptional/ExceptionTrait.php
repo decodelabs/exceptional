@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace DecodeLabs\Exceptional;
 
 use DecodeLabs\Monarch;
+use DecodeLabs\Remnant\Anchor\Rewind as RewindAnchor;
 use DecodeLabs\Remnant\Frame;
 use DecodeLabs\Remnant\Trace;
 use ErrorException;
@@ -36,9 +37,15 @@ trait ExceptionTrait
     public Trace $stackTrace {
         get {
             if (!$this->parameters->stackTrace) {
-                $this->parameters->stackTrace = Trace::fromArray(
+                if ($this->parameters->rewind) {
+                    $anchor = new RewindAnchor($this->parameters->rewind);
+                } else {
+                    $anchor = null;
+                }
+
+                $this->parameters->stackTrace = Trace::fromDebugBacktrace(
                     $this->getTrace(),
-                    $this->parameters->rewind
+                    $anchor
                 );
             }
 
