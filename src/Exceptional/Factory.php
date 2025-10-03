@@ -250,8 +250,8 @@ class Factory
 
         // Params
         $rewind = $params->rewind;
-        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + self::Rewind + 1));
-        $key = $rewind + self::Rewind;
+        $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, (int)($rewind + self::Rewind));
+        $key = $rewind + self::Rewind - 1;
         $lastTrace = $trace[$key - 1];
 
         $params->file = $file ?? $lastTrace['file'] ?? null;
