@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+--
+
+---
+
+### [v0.6.6](https://github.com/decodelabs/exceptional/commits/v0.6.6) - 3rd October 2025
+
 - Fixed first-frame rewind handling
+
+[Full list of changes](https://github.com/decodelabs/exceptional/compare/v0.6.5...v0.6.6)
 
 ---
 
