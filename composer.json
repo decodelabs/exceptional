@@ -13,7 +13,7 @@
         "symfony/polyfill-mbstring": "^1.31",
 
         "decodelabs/remnant": "^0.2.1",
-        "decodelabs/wellspring": "^0.1.2"
+        "decodelabs/wellspring": "^0.2"
     },
     "require-dev": {
         "decodelabs/phpstan-decodelabs": "^0.7"
