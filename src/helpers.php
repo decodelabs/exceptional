@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @package Exceptional
- * @license http://opensource.org/licenses/MIT
+ * Exceptional
+ * @license https://opensource.org/licenses/MIT
  */
 
 declare(strict_types=1);
